@@ -34,7 +34,7 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... strings) throws ParseException {
 
-        userService.addNewUser("First User", 23);
+        userService.addNewUser("FirstUser", 23);
         /*
         User user = userService.findUserByUsername("First User");
 

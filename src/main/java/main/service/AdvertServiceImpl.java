@@ -43,7 +43,6 @@ public class AdvertServiceImpl implements AdvertService {
                              Integer peopleNumber,
                              Date arrivingDate,
                              Date checkOutDate,
-                             //Place place,
                              String country,
                              String city,
                              String home,
