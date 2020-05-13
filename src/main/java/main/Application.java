@@ -2,12 +2,10 @@ package main;
 
 import com.google.gson.Gson;
 import main.ShortEntity.ShortAdvert;
+import main.repository.CommentRepository;
 import main.service.AdvertService;
 import main.service.UserService;
-import main.tables.Advert;
-import main.tables.AdvertType;
-import main.tables.Place;
-import main.tables.User;
+import main.tables.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -27,6 +25,9 @@ public class Application implements CommandLineRunner {
     @Autowired
     AdvertService advertService;
 
+    @Autowired
+    CommentRepository commentRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -35,6 +36,7 @@ public class Application implements CommandLineRunner {
     public void run(String... strings) throws ParseException {
 
         userService.addNewUser("FirstUser", 23);
+            userService.addNewUser("Sec", 34);
         /*
         User user = userService.findUserByUsername("First User");
 

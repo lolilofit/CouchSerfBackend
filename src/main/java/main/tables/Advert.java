@@ -1,17 +1,19 @@
 package main.tables;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "Advert")
-public class Advert {
+public class Advert implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "ad_generator")
     @SequenceGenerator(name = "ad_generator", sequenceName = "AD_SEQ")
+    @Column(name = "adId")
     private Long adId;
 
     @ManyToOne

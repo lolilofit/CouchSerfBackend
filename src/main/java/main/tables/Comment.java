@@ -1,20 +1,22 @@
 package main.tables;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "Comment")
-public class Comment {
+@Table(name = "comm")
+public class Comment implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "comment_generator")
     @SequenceGenerator(name = "comment_generator", sequenceName = "COMMENT_SEQ")
+    @Column(name = "commentId")
     private Long commentId;
 
     @ManyToOne
     @JoinColumn(name = "adId")
     private Advert commentAdvert;
 
-    @Column(name = "message", nullable = false)
+    @Column(name = "message")
     private String message;
 
     @ManyToOne

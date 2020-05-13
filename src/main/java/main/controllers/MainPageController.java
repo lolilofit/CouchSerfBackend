@@ -75,8 +75,10 @@ public class MainPageController {
                                       @RequestParam(value = "type", required = false) AdvertType advertType) {
         //get short version
         List<Advert> allAdverts =  advertService.getAllAdverts();
-        if(limit == null)
+        if(limit == null) {
+            //add showwith pos
             return sortByDate(allAdverts);
+        }
         else {
             if(pos == null)
                 pos = 0;
@@ -108,35 +110,35 @@ public class MainPageController {
     //username - тот, кому выставляют оценку
     @RequestMapping(value = "/changeCsRate", method = RequestMethod.PUT)
     @ResponseBody
-    public void ChangeUsersCouchSerfRating(@RequestParam(value = "username", required = true) String username,
+    public User ChangeUsersCouchSerfRating(@RequestParam(value = "username", required = true) String username,
                                   @RequestParam(value = "rate", required = true) Float rate) {
         if(rate > 5)
-            return;
+            return null;
         User user = userService.findUserByUsername(username);
         user.setCouchSerferRating(user.getCouchSerferRating() + rate);
         user.setCouchSerferRatingsNum(user.getCouchSerferRatingsNum() + 1);
 
-        usersRepository.save(user);
+        return usersRepository.save(user);
     }
 
     @RequestMapping(value = "/changeHcRate", method = RequestMethod.PUT)
     @ResponseBody
-    public void ChangeUsersHouseKeeperRating(@RequestParam(value = "username", required = true) String username,
+    public User ChangeUsersHouseKeeperRating(@RequestParam(value = "username", required = true) String username,
                                            @RequestParam(value = "rate", required = true) Float rate) {
         if(rate > 5)
-            return;
+            return null;
         User user = userService.findUserByUsername(username);
         user.setHouseProvisionRating(user.getHouseProvisionRating() + rate);
         user.setHouseProvisionRatingsNum(user.getHouseProvisionRatingsNum() + 1);
 
-        usersRepository.save(user);
+        return usersRepository.save(user);
     }
 
     @RequestMapping(value = "/advert/{adId}", method = RequestMethod.GET)
     @ResponseBody
     public AdvertContainer getAdvertInfo(@PathVariable Long adId) {
         Advert advert = advertRepository.findByAdId(adId);
-        List<Comment> comments = commentRepository.findByCommentAdvert(advert);
+        List<Comment> comments = commentRepository.findCommentsByCommentAdvert(advert);
 
         AdvertContainer advertContainer = new AdvertContainer();
         advertContainer.setAdvert(advert);
@@ -144,4 +146,23 @@ public class MainPageController {
 
         return advertContainer;
     }
+
+    @RequestMapping(value = "/ad", method = RequestMethod.PUT)
+    @ResponseBody
+    public Advert addSubscriber(@RequestParam(value = "username", required = true) String username,
+                                @RequestParam(value = "ad", required = true) Long adId) {
+        User user = userService.findUserByUsername(username);
+
+        if(user == null)
+            return null;
+
+        Advert advert = advertRepository.findByAdId(adId);
+        if(advert == null)
+            return null;
+
+        if(!advert.getSubscribers().contains(user))
+            advert.getSubscribers().add(user);
+        return advertRepository.save(advert);
+    }
+
 }
