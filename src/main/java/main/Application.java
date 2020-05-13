@@ -1,5 +1,7 @@
 package main;
 
+import com.google.gson.Gson;
+import main.ShortEntity.ShortAdvert;
 import main.service.AdvertService;
 import main.service.UserService;
 import main.tables.Advert;
@@ -31,7 +33,9 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws ParseException {
+
         userService.addNewUser("First User", 23);
+        /*
         User user = userService.findUserByUsername("First User");
 
         advertService.addNewAdvert(user.getUserid(),
@@ -49,7 +53,7 @@ public class Application implements CommandLineRunner {
         all.forEach(ad -> {
             System.out.println(ad.getOwner() + " " + ad.getPublicationDate());
         });
-
+        */
 
     }
 }

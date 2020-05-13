@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.fasterxml.jackson.databind.deser.std.UntypedObjectDeserializer.Vanilla.std;
+
 @Service
 public class AdvertServiceImpl implements AdvertService {
     @Autowired
@@ -35,7 +37,7 @@ public class AdvertServiceImpl implements AdvertService {
     }
 
     @Override
-    public void addNewAdvert(Long owner_id,
+    public Advert addNewAdvert(User owner,
                              String header,
                              String message,
                              Integer peopleNumber,
@@ -46,19 +48,20 @@ public class AdvertServiceImpl implements AdvertService {
                              String city,
                              String home,
                              AdvertType advertType) {
-        List<User> owners = usersRepository.findUsersByUserid(owner_id);
-        if(owners.size() == 0)
-            return;
         if(checkOutDate.compareTo(arrivingDate) < 0)
-            return;
+            return null;
 
-        placeService.addNewPlace(country, city, home);
+        Place place;
+
         List<Place> places = placeService.getPlaceWithFilters(country, city, home);
-        if(places.size() == 0)
-            return;
-        Place place = places.get(0);
+        if(places.size() == 0) {
+            placeService.addNewPlace(country, city, home);
+            places = placeService.getPlaceWithFilters(country, city, home);
+            if (places.size() == 0)
+                return null;
+        }
+        place = places.get(0);
 
-        User owner = owners.get(0);
         Advert advert = new Advert();
 
         advert.setOwner(owner);
@@ -71,6 +74,6 @@ public class AdvertServiceImpl implements AdvertService {
         advert.setCheckOutDate(checkOutDate);
         advert.setPlace(place);
 
-        advertRepository.save(advert);
+        return advertRepository.save(advert);
     }
 }
