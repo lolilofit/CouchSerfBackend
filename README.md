@@ -4,6 +4,9 @@
 
 Отправка запроса за добавление объявления от имени FirstUser: (Post)
 ..пока что имя должно быть без пробелов
+localhost:8080/hpad - объявление о предоставлении жилья
+localhost:8080/hsad - объявление о поиске жилья
+
 {"username":"FirstUser",
 "header": "header",
 "message": "mes",
@@ -46,10 +49,10 @@
 
 Ответ на запрос на получение всех объявлений - массив [] из json из предыдушего ответа (GET)
 В том числе можно запросить не все объявления
-localhost:8080/
-localhost:8080/?type=HOUSE_SEARCH
-localhost:8080/?type=HOUSE_PROVISION
-localhost:8080/?limit=2&pos=2
+localhost:8080/advert
+localhost:8080/advert?type=HOUSE_SEARCH
+localhost:8080/advert?type=HOUSE_PROVISION
+localhost:8080/advert?limit=2&pos=2
 //limit - максимально число объявлений, который хотим получить
 //pos - позиция в списе объявлений, начиная с которой получим необходимое число объявлений
 
@@ -68,10 +71,10 @@ localhost:8080/user/{имя пользователя}
 
 
 запрос на изменение рейтинга пользователя как съемщика(PUT)
-localhost:8080/changeCsRate?username=FirstUser&rate=4
+localhost:8080/user/changeCsRate?username=FirstUser&rate=4
 
 аналогично запрос для изменения рейтинга как предоставителя жилья
-localhost:8080/changeHcRate?username=FirstUser&rate=4
+localhost:8080/user/changeHcRate?username=FirstUser&rate=4
 
 {
     "comments": [],
@@ -157,7 +160,7 @@ localhost:8080/comments/add
 
 
 Добавить пользователя отозвавшегося на объявление
-localhost:8080/ad?username=Sec&ad=50
+localhost:8080/adver/addsubscriber?username=Sec&ad=50
 
 {
     "adId": 50,
