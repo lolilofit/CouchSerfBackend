@@ -31,9 +31,6 @@ public class MainPageController {
     private UserService userService;
 
     @Autowired
-    private UsersRepository usersRepository;
-
-    @Autowired
     private AdvertRepository advertRepository;
 
     @Autowired
@@ -68,7 +65,7 @@ public class MainPageController {
         }).collect(Collectors.toList());
     }
 
-    @RequestMapping(method = RequestMethod.GET, produces ="application/json")
+    @RequestMapping(value = "/advert", method = RequestMethod.GET, produces ="application/json")
     @ResponseBody
     public List<Advert> getAllAdverts(@RequestParam(value = "limit", required = false) Integer limit,
                                       @RequestParam(value = "pos", required = false) Integer pos,
@@ -107,33 +104,6 @@ public class MainPageController {
         return addNewAd(advert, AdvertType.HOUSE_PROVISION);
     }
 
-    //username - тот, кому выставляют оценку
-    @RequestMapping(value = "/changeCsRate", method = RequestMethod.PUT)
-    @ResponseBody
-    public User ChangeUsersCouchSerfRating(@RequestParam(value = "username", required = true) String username,
-                                  @RequestParam(value = "rate", required = true) Float rate) {
-        if(rate > 5)
-            return null;
-        User user = userService.findUserByUsername(username);
-        user.setCouchSerferRating(user.getCouchSerferRating() + rate);
-        user.setCouchSerferRatingsNum(user.getCouchSerferRatingsNum() + 1);
-
-        return usersRepository.save(user);
-    }
-
-    @RequestMapping(value = "/changeHcRate", method = RequestMethod.PUT)
-    @ResponseBody
-    public User ChangeUsersHouseKeeperRating(@RequestParam(value = "username", required = true) String username,
-                                           @RequestParam(value = "rate", required = true) Float rate) {
-        if(rate > 5)
-            return null;
-        User user = userService.findUserByUsername(username);
-        user.setHouseProvisionRating(user.getHouseProvisionRating() + rate);
-        user.setHouseProvisionRatingsNum(user.getHouseProvisionRatingsNum() + 1);
-
-        return usersRepository.save(user);
-    }
-
     @RequestMapping(value = "/advert/{adId}", method = RequestMethod.GET)
     @ResponseBody
     public AdvertContainer getAdvertInfo(@PathVariable Long adId) {
@@ -147,7 +117,7 @@ public class MainPageController {
         return advertContainer;
     }
 
-    @RequestMapping(value = "/ad", method = RequestMethod.PUT)
+    @RequestMapping(value = "/adver/addsubscriber", method = RequestMethod.PUT)
     @ResponseBody
     public Advert addSubscriber(@RequestParam(value = "username", required = true) String username,
                                 @RequestParam(value = "ad", required = true) Long adId) {
