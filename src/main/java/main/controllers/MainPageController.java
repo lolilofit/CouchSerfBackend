@@ -65,6 +65,13 @@ public class MainPageController {
         }).collect(Collectors.toList());
     }
 
+    @RequestMapping(value = "/advert/count", method = RequestMethod.GET, produces ="application/json")
+    @ResponseBody
+    public Long getAdvertsCount() {
+        return advertRepository.count();
+    }
+
+
     @RequestMapping(value = "/advert", method = RequestMethod.GET, produces ="application/json")
     @ResponseBody
     public List<Advert> getAllAdverts(@RequestParam(value = "limit", required = false) Integer limit,
