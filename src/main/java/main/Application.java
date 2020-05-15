@@ -1,20 +1,14 @@
 package main;
 
-import com.google.gson.Gson;
-import main.ShortEntity.ShortAdvert;
 import main.repository.CommentRepository;
 import main.service.AdvertService;
 import main.service.UserService;
-import main.tables.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 
 @SpringBootApplication

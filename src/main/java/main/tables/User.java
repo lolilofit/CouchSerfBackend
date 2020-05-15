@@ -9,11 +9,6 @@ public class User implements Serializable {
     private static final long serialVersionUID = -5170875020617735653L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "my_entity_seq_gen")
-    @SequenceGenerator(name = "my_entity_seq_gen", sequenceName = "USERS_TRG")
-    @Column(name = "userid")
-    private long userid;
-
     @Column(name = "username", unique = true)
     private String username;
 
@@ -32,9 +27,6 @@ public class User implements Serializable {
     @Column(name = "house_provision_rating_num")
     private long  houseProvisionRatingsNum = 0;
 
-    public long getUserid() {
-        return userid;
-    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -42,10 +34,6 @@ public class User implements Serializable {
 
     public String getUsername() {
         return username;
-    }
-
-    public void setUserid(long userid) {
-        this.userid = userid;
     }
 
     public void setUsername(String username) {

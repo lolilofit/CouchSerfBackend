@@ -11,6 +11,8 @@ import java.util.List;
 public interface AdvertService {
     public List<Advert> getAllAdverts();
 
+    public Advert addNewAdvert(Advert advert, User owner);
+
     public Advert addNewAdvert(User owner,
                                String header,
                                String message,

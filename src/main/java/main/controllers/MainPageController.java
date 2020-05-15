@@ -1,10 +1,8 @@
 package main.controllers;
 
 import main.ShortEntity.AdvertContainer;
-import main.ShortEntity.ShortAdvert;
 import main.repository.AdvertRepository;
 import main.repository.CommentRepository;
-import main.repository.UsersRepository;
 import main.service.AdvertService;
 import main.service.UserService;
 import main.tables.Advert;
@@ -37,22 +35,12 @@ public class MainPageController {
     private CommentRepository commentRepository;
 
 
-    private Advert addNewAd(ShortAdvert advert, AdvertType advertType) {
-        User owner = userService.findUserByUsername(advert.getUsername());
+    private Advert addNewAd(Advert advert, AdvertType advertType) {
+        User owner = userService.findUserByUsername(advert.getOwner().getUsername());
         if(owner == null)
             return null;
 
-        return advertService.addNewAdvert(owner,
-                advert.getHeader(),
-                advert.getMessage(),
-                advert.getPeopleNumber(),
-                advert.getArrivingDate(),
-                advert.getCheckOutDate(),
-                advert.getCountry(),
-                advert.getCity(),
-                advert.getHome(),
-                advertType
-        );
+        return advertService.addNewAdvert(advert, owner);
 
     }
 
@@ -93,14 +81,14 @@ public class MainPageController {
 
     @RequestMapping(value = "/hsad", method = RequestMethod.POST, produces ="application/json")
     @ResponseBody
-    public Advert newHouseSearchAdvert(@RequestBody ShortAdvert advert) {
+    public Advert newHouseSearchAdvert(@RequestBody Advert advert) {
         return addNewAd(advert, AdvertType.HOUSE_SEARCH);
     }
 
 
     @RequestMapping(value = "/hpad", method = RequestMethod.POST, produces ="application/json")
     @ResponseBody
-    public Advert newHouseProvisionAdvert(@RequestBody ShortAdvert advert) {
+    public Advert newHouseProvisionAdvert(@RequestBody Advert advert) {
         return addNewAd(advert, AdvertType.HOUSE_PROVISION);
     }
 

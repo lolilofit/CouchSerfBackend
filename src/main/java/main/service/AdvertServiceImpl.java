@@ -36,6 +36,34 @@ public class AdvertServiceImpl implements AdvertService {
         return result;
     }
 
+    private Place addPlaceIfNotPresent(String country, String city, String home) {
+        List<Place> places = placeService.getPlaceWithFilters(country, city, home);
+        if(places.size() == 0) {
+            placeService.addNewPlace(country, city, home);
+            places = placeService.getPlaceWithFilters(country, city, home);
+            if (places.size() == 0)
+                return null;
+        }
+        return places.get(0);
+    }
+
+    @Override
+    public Advert addNewAdvert(Advert advert, User owner) {
+        if(advert.getCheckOutDate().compareTo(advert.getArrivingDate()) < 0)
+            return null;
+
+        Place place = advert.getPlace();
+        place = addPlaceIfNotPresent(place.getCountry(), place.getCity(), place.getHome());
+        if(place == null)
+            return null;
+
+        advert.setOwner(owner);
+        advert.setPublicationDate(new Date(System.currentTimeMillis()));
+        advert.setPlace(place);
+
+        return advertRepository.save(advert);
+    }
+
     @Override
     public Advert addNewAdvert(User owner,
                              String header,
@@ -51,15 +79,9 @@ public class AdvertServiceImpl implements AdvertService {
             return null;
 
         Place place;
-
-        List<Place> places = placeService.getPlaceWithFilters(country, city, home);
-        if(places.size() == 0) {
-            placeService.addNewPlace(country, city, home);
-            places = placeService.getPlaceWithFilters(country, city, home);
-            if (places.size() == 0)
-                return null;
-        }
-        place = places.get(0);
+        place = addPlaceIfNotPresent(country, city, home);
+        if(place == null)
+            return null;
 
         Advert advert = new Advert();
 
