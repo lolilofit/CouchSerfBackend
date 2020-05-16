@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.fasterxml.jackson.databind.deser.std.UntypedObjectDeserializer.Vanilla.std;
 
 @Service
 public class AdvertServiceImpl implements AdvertService {
@@ -38,10 +37,10 @@ public class AdvertServiceImpl implements AdvertService {
 
     private Place addPlaceIfNotPresent(String country, String city, String home) {
         List<Place> places = placeService.getPlaceWithFilters(country, city, home);
-        if(places.size() == 0) {
+        if(places.isEmpty()) {
             placeService.addNewPlace(country, city, home);
             places = placeService.getPlaceWithFilters(country, city, home);
-            if (places.size() == 0)
+            if (places.isEmpty())
                 return null;
         }
         return places.get(0);
@@ -59,40 +58,6 @@ public class AdvertServiceImpl implements AdvertService {
 
         advert.setOwner(owner);
         advert.setPublicationDate(new Date(System.currentTimeMillis()));
-        advert.setPlace(place);
-
-        return advertRepository.save(advert);
-    }
-
-    @Override
-    public Advert addNewAdvert(User owner,
-                             String header,
-                             String message,
-                             Integer peopleNumber,
-                             Date arrivingDate,
-                             Date checkOutDate,
-                             String country,
-                             String city,
-                             String home,
-                             AdvertType advertType) {
-        if(checkOutDate.compareTo(arrivingDate) < 0)
-            return null;
-
-        Place place;
-        place = addPlaceIfNotPresent(country, city, home);
-        if(place == null)
-            return null;
-
-        Advert advert = new Advert();
-
-        advert.setOwner(owner);
-        advert.setPublicationDate(new Date(System.currentTimeMillis()));
-        advert.setHeader(header);
-        advert.setMessage(message);
-        advert.setAdvertType(advertType);
-        advert.setPeopleNumber(peopleNumber);
-        advert.setArrivingDate(arrivingDate);
-        advert.setCheckOutDate(checkOutDate);
         advert.setPlace(place);
 
         return advertRepository.save(advert);

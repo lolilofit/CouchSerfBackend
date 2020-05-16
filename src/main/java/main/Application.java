@@ -30,26 +30,6 @@ public class Application implements CommandLineRunner {
     public void run(String... strings) throws ParseException {
 
         userService.addNewUser("FirstUser", 23);
-            userService.addNewUser("Sec", 34);
-        /*
-        User user = userService.findUserByUsername("First User");
-
-        advertService.addNewAdvert(user.getUserid(),
-                "Simple header",
-                "some text",
-                1,
-                new SimpleDateFormat("dd/MM/yyyy").parse("12/08/2020"),
-                new SimpleDateFormat("dd/MM/yyyy").parse("13/08/2020"),
-                "Russia", "Nsk", "Lenina",
-                AdvertType.HOUSE_SEARCH
-                );
-
-        List<Advert> all = advertService.getAllAdverts();
-
-        all.forEach(ad -> {
-            System.out.println(ad.getOwner() + " " + ad.getPublicationDate());
-        });
-        */
-
+        userService.addNewUser("Sec", 34);
     }
 }

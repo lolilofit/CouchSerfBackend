@@ -1,9 +1,8 @@
 package main.controllers;
 
-import main.ShortEntity.ShortComment;
+import main.shortentity.ShortComment;
 import main.repository.AdvertRepository;
 import main.repository.CommentRepository;
-import main.service.AdvertService;
 import main.service.UserService;
 import main.tables.Advert;
 import main.tables.Comment;

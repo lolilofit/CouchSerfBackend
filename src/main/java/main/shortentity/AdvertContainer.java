@@ -1,4 +1,4 @@
-package main.ShortEntity;
+package main.shortentity;
 
 import main.tables.Advert;
 import main.tables.Comment;

@@ -18,13 +18,14 @@ public class UserController {
 
 
     @RequestMapping(value = "user/{username}", method = RequestMethod.GET, produces ="application/json")
+    //@GetMapping(value = "/user/{username}", produces ="application/json")
     @ResponseBody
     public User getUserInfo(@PathVariable String username) {
         return userService.findUserByUsername(username);
     }
 
-    //username - тот, кому выставляют оценку
     @RequestMapping(value = "/user/changeCsRate", method = RequestMethod.PUT)
+    //@PutMapping(value = "/user/changeCsRate")
     @ResponseBody
     public User ChangeUsersCouchSerfRating(@RequestParam(value = "username", required = true) String username,
                                            @RequestParam(value = "rate", required = true) Float rate) {

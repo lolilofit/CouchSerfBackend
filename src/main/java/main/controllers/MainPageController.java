@@ -1,6 +1,7 @@
 package main.controllers;
 
-import main.ShortEntity.AdvertContainer;
+import main.dto.AdvertDTO;
+import main.shortentity.AdvertContainer;
 import main.repository.AdvertRepository;
 import main.repository.CommentRepository;
 import main.service.AdvertService;
@@ -35,7 +36,7 @@ public class MainPageController {
     private CommentRepository commentRepository;
 
 
-    private Advert addNewAd(Advert advert, AdvertType advertType) {
+    private Advert addNewAd(Advert advert) {
         User owner = userService.findUserByUsername(advert.getOwner().getUsername());
         if(owner == null)
             return null;
@@ -45,12 +46,7 @@ public class MainPageController {
     }
 
     private List<Advert> sortByDate(List<Advert> adverts) {
-        return adverts.stream().sorted(new Comparator<Advert>() {
-            @Override
-            public int compare(Advert o1, Advert o2) {
-                return o1.getPublicationDate().compareTo(o2.getPublicationDate());
-            }
-        }).collect(Collectors.toList());
+        return adverts.stream().sorted(Comparator.comparing(Advert::getPublicationDate)).collect(Collectors.toList());
     }
 
     @RequestMapping(value = "/advert/count", method = RequestMethod.GET, produces ="application/json")
@@ -68,7 +64,7 @@ public class MainPageController {
         //get short version
         List<Advert> allAdverts =  advertService.getAllAdverts();
         if(limit == null) {
-            //add showwith pos
+            //add show with pos
             return sortByDate(allAdverts);
         }
         else {
@@ -86,17 +82,11 @@ public class MainPageController {
         }
     }
 
-    @RequestMapping(value = "/hsad", method = RequestMethod.POST, produces ="application/json")
+    @RequestMapping(value = "/advert/add", method = RequestMethod.POST, produces ="application/json")
     @ResponseBody
-    public Advert newHouseSearchAdvert(@RequestBody Advert advert) {
-        return addNewAd(advert, AdvertType.HOUSE_SEARCH);
-    }
-
-
-    @RequestMapping(value = "/hpad", method = RequestMethod.POST, produces ="application/json")
-    @ResponseBody
-    public Advert newHouseProvisionAdvert(@RequestBody Advert advert) {
-        return addNewAd(advert, AdvertType.HOUSE_PROVISION);
+    public Advert newHouseSearchAdvert(@RequestBody AdvertDTO advertDTO) {
+        Advert advert = new Advert(advertDTO);
+        return addNewAd(advert);
     }
 
     @RequestMapping(value = "/advert/{adId}", method = RequestMethod.GET)

@@ -1,6 +1,5 @@
 package main.tables;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum AdvertType {

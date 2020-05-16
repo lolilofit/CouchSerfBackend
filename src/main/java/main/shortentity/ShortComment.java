@@ -1,4 +1,4 @@
-package main.ShortEntity;
+package main.shortentity;
 
 public class ShortComment {
     private Long adId;

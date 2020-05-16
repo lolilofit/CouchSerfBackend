@@ -1,5 +1,8 @@
 package main.tables;
 
+import main.dto.AdvertDTO;
+import main.dto.UserDTO;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -57,6 +60,26 @@ public class Advert implements Serializable {
 
     public Advert() {
         subscribers = new ArrayList<>();
+    }
+
+    public Advert(AdvertDTO advertDTO) {
+        this.adId = advertDTO.getAdId();
+        this.owner = new User(advertDTO.getOwner());
+        this.publicationDate = advertDTO.getPublicationDate();
+        this.header = advertDTO.getHeader();
+        this.message = advertDTO.getMessage();
+        this.advertType = advertDTO.getAdvertType();
+        this.place = new Place(advertDTO.getPlace());
+        this.peopleNumber = advertDTO.getPeopleNumber();
+        this.arrivingDate = advertDTO.getArrivingDate();
+        this.checkOutDate = advertDTO.getCheckOutDate();
+        this.subscribers = new ArrayList<>();
+
+        List<UserDTO> userDTOList = advertDTO.getSubscribers();
+        for(int i = 0; i < userDTOList.size(); i++) {
+            User user = new User(userDTOList.get(i));
+            this.subscribers.add(user);
+        }
     }
 
     public List<User> getSubscribers() {

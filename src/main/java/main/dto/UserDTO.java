@@ -1,48 +1,14 @@
-package main.tables;
+package main.dto;
 
-import main.dto.UserDTO;
-
-import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "Users")
-public class User implements Serializable {
-    private static final long serialVersionUID = -5170875020617735653L;
-
-    @Id
-    @Column(name = "username", unique = true)
+public class UserDTO implements Serializable {
     private String username;
-
-    @Column(name = "age")
     private int age;
-
-    @Column(name = "couch_serfer_rating")
     private float couchSerferRating = 0.0f;
-
-    @Column(name = "couch_serfer_ratings_num")
     private long couchSerferRatingsNum = 0;
-
-    @Column(name = "house_provision_rating")
     private float houseProvisionRating = 0.0f;
-
-    @Column(name = "house_provision_rating_num")
     private long  houseProvisionRatingsNum = 0;
-
-    public User() {}
-
-    public User(UserDTO userDTO) {
-        this.age = userDTO.getAge();
-        this.username = userDTO.getUsername();
-        this.couchSerferRating = userDTO.getCouchSerferRating();
-        this.couchSerferRatingsNum = userDTO.getCouchSerferRatingsNum();
-        this.houseProvisionRating = userDTO.getHouseProvisionRating();
-        this.houseProvisionRatingsNum = userDTO.getHouseProvisionRatingsNum();
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
 
     public String getUsername() {
         return username;
@@ -91,5 +57,4 @@ public class User implements Serializable {
     public void setHouseProvisionRatingsNum(long houseProvisionRatingsNum) {
         this.houseProvisionRatingsNum = houseProvisionRatingsNum;
     }
-
 }

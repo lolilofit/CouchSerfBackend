@@ -15,21 +15,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UsersRepository usersRepository;
 
-
-    /*
-    @Override
-    public Boolean checkUserPassword(String username, String password) {
-        List<User> users = usersRepository.findUsersByUsername(username);
-
-        if(users.size() < 1)
-            return false;
-        for(User user : users) {
-            if(user.getPassword().equals(password))
-                return true;
-        }
-        return false;
-    }
-*/
     @Override
     public void addNewUser(String username, Integer age) {
         User user = new User();
@@ -42,7 +27,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserByUsername(String username) {
         List<User> users = usersRepository.findUsersByUsername(username);
-        if(users.size() == 0)
+        if(users.isEmpty())
             return null;
         //username is unique
         return users.get(0);

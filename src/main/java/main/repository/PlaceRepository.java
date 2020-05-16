@@ -9,8 +9,11 @@ import java.util.List;
 @Repository
 public interface PlaceRepository extends CrudRepository<Place, Long> {
     public List<Place> findByPlaceId(Long placeId);
-    //public List<Place> findByCityAndCountry();
-    //public List<Place> findByCountry();
-    //public List<Place> findByCityAndAndCountry();
     public List<Place> findByCountryAndCityAndHome(String country, String city, String home);
+    public List<Place> findByCountryAndCity(String country, String city);
+    public List<Place> findByCountryAndHome(String country, String home);
+    public List<Place> findByCityAndHome(String city, String home);
+    public List<Place> findByCity(String city);
+    public List<Place> findByCountry(String country);
+    public List<Place> findByHome(String home);
 }
