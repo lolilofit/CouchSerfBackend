@@ -84,6 +84,7 @@ public class MainPageController {
 
     @RequestMapping(value = "/advert/add", method = RequestMethod.POST, produces ="application/json")
     @ResponseBody
+    //public Advert newHouseSearchAdvert(@RequestBody AdvertDTO advertDTO) {
     public Advert newHouseSearchAdvert(@RequestBody AdvertDTO advertDTO) {
         Advert advert = new Advert(advertDTO);
         return addNewAd(advert);

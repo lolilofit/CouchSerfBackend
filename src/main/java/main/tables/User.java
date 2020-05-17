@@ -11,6 +11,11 @@ public class User implements Serializable {
     private static final long serialVersionUID = -5170875020617735653L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "my_entity_seq_gen")
+    @SequenceGenerator(name = "my_entity_seq_gen", sequenceName = "USERS_TRG")
+    @Column(name = "userid")
+    private long userid;
+
     @Column(name = "username", unique = true)
     private String username;
 
@@ -38,6 +43,14 @@ public class User implements Serializable {
         this.couchSerferRatingsNum = userDTO.getCouchSerferRatingsNum();
         this.houseProvisionRating = userDTO.getHouseProvisionRating();
         this.houseProvisionRatingsNum = userDTO.getHouseProvisionRatingsNum();
+    }
+
+    public long getUserid() {
+        return userid;
+    }
+
+    public void setUserid(long userid) {
+        this.userid = userid;
     }
 
     public static long getSerialVersionUID() {

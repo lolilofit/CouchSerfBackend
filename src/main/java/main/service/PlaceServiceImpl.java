@@ -23,24 +23,6 @@ public class PlaceServiceImpl implements PlaceService{
         if(country != null && city != null && home != null)
             return placeRepository.findByCountryAndCityAndHome(country, city, home);
 
-        if(country != null && city != null)
-            return placeRepository.findByCountryAndCity(country, city);
-
-        if(country != null && home != null)
-            return placeRepository.findByCountryAndHome(country, home);
-
-        if(city != null && home != null)
-            return placeRepository.findByCityAndHome(city, home);
-
-        if(country != null)
-            return placeRepository.findByCountry(country);
-
-        if(city != null)
-            return placeRepository.findByCity(city);
-
-        if(home != null)
-            return placeRepository.findByHome(home);
-
         return new ArrayList<>();
     }
 }
