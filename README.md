@@ -4,8 +4,8 @@
 
 Отправка запроса за добавление объявления от имени FirstUser: (Post)
 ..пока что имя должно быть без пробелов
-localhost:8080/hpad - объявление о предоставлении жилья
-localhost:8080/hsad - объявление о поиске жилья
+localhost:8080/advert/add 
+
 
 {"username":"FirstUser",
 "header": "header",
