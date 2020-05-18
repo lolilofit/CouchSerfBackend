@@ -103,10 +103,10 @@ public class MainPageController {
         return advertContainer;
     }
 
-    @RequestMapping(value = "/adver/addsubscriber", method = RequestMethod.PUT)
+    @RequestMapping(value = "/adver/{adId}/addsubscriber", method = RequestMethod.PUT)
     @ResponseBody
     public Advert addSubscriber(@RequestParam(value = "username", required = true) String username,
-                                @RequestParam(value = "ad", required = true) Long adId) {
+                                @PathVariable Long adId) {
         User user = userService.findUserByUsername(username);
 
         if(user == null)

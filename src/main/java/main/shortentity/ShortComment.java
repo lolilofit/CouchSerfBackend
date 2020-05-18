@@ -1,7 +1,6 @@
 package main.shortentity;
 
 public class ShortComment {
-    private Long adId;
     private String message;
     //what to use instead of user
     private String author;
@@ -16,14 +15,6 @@ public class ShortComment {
 
     public String getMessage() {
         return message;
-    }
-
-    public void setAdId(Long adId) {
-        this.adId = adId;
-    }
-
-    public Long getAdId() {
-        return adId;
     }
 
     public String getAuthor() {

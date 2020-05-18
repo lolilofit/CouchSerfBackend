@@ -25,9 +25,9 @@ public class UserController {
     }
 
     //@PutMapping(path = "/user/changeCsRate",  produces = "application/json")
-    @RequestMapping(value = "/user/changeCsRate", method = RequestMethod.PUT)
+    @RequestMapping(value = "/user/{username}/changeCsRate", method = RequestMethod.PUT)
     @ResponseBody
-    public User ChangeUsersCouchSerfRating(@RequestParam(value = "username", required = true) String username,
+    public User ChangeUsersCouchSerfRating(@PathVariable String username,
                                            @RequestParam(value = "rate", required = true) Float rate) {
         if(rate > 5)
             return null;
@@ -38,9 +38,9 @@ public class UserController {
         return usersRepository.save(user);
     }
 
-    @RequestMapping(value = "/user/changeHcRate", method = RequestMethod.PUT)
+    @RequestMapping(value = "/user/{username}/changeHcRate", method = RequestMethod.PUT)
     @ResponseBody
-    public User ChangeUsersHouseKeeperRating(@RequestParam(value = "username", required = true) String username,
+    public User ChangeUsersHouseKeeperRating(@PathVariable String username,
                                              @RequestParam(value = "rate", required = true) Float rate) {
         if(rate > 5)
             return null;

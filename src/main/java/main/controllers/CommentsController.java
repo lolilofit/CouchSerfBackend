@@ -25,11 +25,11 @@ public class CommentsController {
 
 
     //remove return comment
-    @RequestMapping(value = "/add", method = RequestMethod.POST, produces ="application/json")
+    @RequestMapping(value = "/{adId}/add", method = RequestMethod.POST, produces ="application/json")
     @ResponseBody
-    public Comment leaveComment(@RequestBody ShortComment comment) {
+    public Comment leaveComment(@RequestBody ShortComment comment, @PathVariable Long adId) {
         User author = userService.findUserByUsername(comment.getAuthor());
-        Advert advert = advertRepository.findByAdId(comment.getAdId());
+        Advert advert = advertRepository.findByAdId(adId);
 
         Comment newComment = new Comment();
         newComment.setMessage(comment.getMessage());
