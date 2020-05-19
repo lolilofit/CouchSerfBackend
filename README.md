@@ -2,21 +2,57 @@
 
 #Виды запросов
 
-Отправка запроса за добавление объявления от имени FirstUser: (Post)
+1. Аутентификация
+
+*Регистрация* (POST)
+localhost:port/auth/register
+
+Тело запроса: 
+
+{
+    "securedUser": {
+        "username": "gddd",
+        "password": "ew"
+    },
+    "age": 21
+}
+
+*Логин* (POST)
+localhost:port/auth/login
+
+Тело запроса:
+{
+	"username" : "gddd",
+	"password" : "ew"
+}
+
+Ответ:
+{
+    "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnZGRkIiwiaWF0IjoxNTg5ODkxNzkzLCJleHAiOjE1ODk5MDk3OTN9.de2jEQong34eARdg3k_Qhgms22OEUbe9yiLtSk67tJIHWdrFPfu23vo8VkMBVpxcGXNMfRvxKpWrRL7xjmVBDQ"
+}
+
+
+2. Остальные запросы
+
+*Отправка запроса за добавление объявления*: (Post)
 ..пока что имя должно быть без пробелов
-localhost:8080/advert/add 
+localhost:port/adchange/add
+Требуется аутентификация
 
-
-{"username":"FirstUser",
+{
 "header": "header",
 "message": "mes",
-"country":"Russia",
-"city":"Msk",
-"home":"Lenina",
-"peopleNumber":0,
+"place" : {
+	"country":"Russia",
+	"city":"Msk",
+	"home":"Lenina"
+},
+ "advertType" : "HOUSE_SEARCH",
+"peopleNumber": 0,
 "arrivingDate":"2020-08-19",
 "checkOutDate":"2020-08-20"
 }
+
 
 Ответ на добавление объявления:
 //subscribers - пользователи, откликнувшиеся на объявление
@@ -47,17 +83,32 @@ localhost:8080/advert/add
 }
 
 
-Ответ на запрос на получение всех объявлений - массив [] из json из предыдушего ответа (GET)
+Ответ на запрос на *получение всех объявлений* - массив [] из json из предыдушего ответа (GET)
 В том числе можно запросить не все объявления
-localhost:8080/advert
-localhost:8080/advert?type=HOUSE_SEARCH
-localhost:8080/advert?type=HOUSE_PROVISION
-localhost:8080/advert?limit=2&pos=2
+Не требует аутентификации
+
+localhost:8083/advert
+localhost:8083/advert?type=HOUSE_SEARCH
+localhost:8083/advert?type=HOUSE_PROVISION
+localhost:8083/advert?limit=2&pos=2
 //limit - максимально число объявлений, который хотим получить
 //pos - позиция в списе объявлений, начиная с которой получим необходимое число объявлений
+//Если limit не указан, pos не учитывается 
 
-запрос на получение информации о пользователе (GET)
-localhost:8080/user/{имя пользователя}
+
+*Получение конкретного объявления* (GET)
+Не требует аутентификации
+localhost:8083/advert/{adId}
+
+
+*Получение общего числа объявлений* (GET)
+Не требует аутентификации
+localhost:8083/advert/count
+
+*запрос на получение информации о пользователе* (GET)
+Не требует аутентификации
+
+localhost:8083/userinfo/{имя пользователя}
 Ответ на этот запрос:
 {
     "userid": 1,
@@ -70,11 +121,13 @@ localhost:8080/user/{имя пользователя}
 }
 
 
-запрос на изменение рейтинга пользователя как съемщика(PUT)
-localhost:8080/user/{имя пользователя}/changeCsRate?rate=4
+*Изменение рейтинга:*
+Необходима аутентификация
 
+запрос на изменение рейтинга пользователя как съемщика(PUT)
+localhost:8083/user/{имя пользователя}/changeCsRate?rate=4
 аналогично запрос для изменения рейтинга как предоставителя жилья
-localhost:8080/user/{имя пользователя}/changeHcRate?rate=4
+localhost:8083/user/{имя пользователя}/changeHcRate?rate=4
 
 {
     "comments": [],
@@ -106,12 +159,13 @@ localhost:8080/user/{имя пользователя}/changeHcRate?rate=4
 }
 
 
-добавить комментарий к объявлению (PUT)
+*добавить комментарий к объявлению *(PUT)
+Необходима аутентификация
+
 //adId - номер объявления
-localhost:8080/comments/{adId}/add
+localhost:8083/comments/{adId}/add
 {
-	"message": "vaaa",
-	"author": "FirstUser"
+	"message": "vaaa"
 }
 
 Ответ: (в дальшнейшем можно убрать, чтобы лишнее не передавать)
@@ -158,8 +212,9 @@ localhost:8080/comments/{adId}/add
 
 
 
-Добавить пользователя отозвавшегося на объявление
-localhost:8080/adver/{adId}/addsubscriber?username=Sec
+*Добавить пользователя отозвавшегося на объявление*
+Необходима аутентификация
+localhost:8083/adchange/{adId}/addsubscriber
 
 {
     "adId": 50,
@@ -197,3 +252,4 @@ localhost:8080/adver/{adId}/addsubscriber?username=Sec
     "checkOutDate": 1597881600000
 }
 
+3. API чата
