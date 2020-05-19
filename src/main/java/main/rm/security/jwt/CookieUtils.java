@@ -1,0 +1,27 @@
+package main.rm.security.jwt;
+
+
+import com.sun.istack.internal.Nullable;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
+public class CookieUtils {
+
+    public static void saveCookie(String name, String value, int maxAge, HttpServletResponse response) {
+        Cookie JWTtoken = new Cookie(name, value);
+        JWTtoken.setMaxAge(maxAge);
+        JWTtoken.setPath("/");
+        response.addCookie(JWTtoken);
+    }
+
+    @Nullable
+    public static String getValueOf(String name, Cookie[] collection) {
+        if (collection != null)
+            for (Cookie cookie : collection) {
+                if (cookie.getName().equals(name))
+                    return cookie.getValue();
+            }
+        return null;
+    }
+}

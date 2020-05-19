@@ -1,5 +1,7 @@
 package main.tables;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -12,6 +14,7 @@ public class Comment implements Serializable {
     @Column(name = "commentId")
     private Long commentId;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "adId")
     private Advert commentAdvert;

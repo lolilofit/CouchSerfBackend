@@ -1,5 +1,6 @@
 package main.tables;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import main.dto.UserDTO;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ public class User implements Serializable {
     @Column(name = "userid")
     private long userid;
 
+    @JsonIgnore
     @Column(name = "username", unique = true)
     private String username;
 
