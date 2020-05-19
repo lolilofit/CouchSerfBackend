@@ -94,7 +94,6 @@
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc8</artifactId>
             <version>1.0</version>
-            <scope>system</scope>
         </dependency>
     </dependencies>
 
