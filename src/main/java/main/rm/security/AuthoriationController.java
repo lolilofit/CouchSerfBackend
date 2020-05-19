@@ -41,7 +41,8 @@ public class AuthoriationController {
 
     @Autowired
     private JpaSecuredUserRepository jpaSecuredUserRepository;
-/*
+
+    @RequestMapping(path = "/login", consumes = "application/json")
     public ResponseEntity<JwtToken> loginRequest(@RequestBody @Valid SecuredUser user, HttpServletResponse response) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         UserDetails userEntry = userDetailsService.loadUserByUsername(user.getUsername());
@@ -50,7 +51,6 @@ public class AuthoriationController {
         CookieUtils.saveCookie(JwtUtils.getCookieName(), responseToken, JwtUtils.getJWT_TOKEN_VALIDITY(), response);
         return new ResponseEntity<>(new JwtToken(responseToken), HttpStatus.OK);
     }
- */
 
     @RequestMapping(path = "/register", consumes = "application/json", method = RequestMethod.POST)
     public ResponseEntity<String> registerRequest(@RequestBody @Valid SecuredUser user) {
@@ -63,6 +63,7 @@ public class AuthoriationController {
         String encoded = passwordEncoder.encode(user.getPassword());
         user.setPassword(encoded);
 
+        //save User entity
         SecuredUser createdUser = jpaSecuredUserRepository.save(user);
         roleHelper.addRoleTo(createdUser.getUserId(), Role.Roles.USER_ROLE);
 
