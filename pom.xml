@@ -95,7 +95,6 @@
             <artifactId>ojdbc8</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/WEB-INF/lib/ojdbc8.jar</systemPath>
         </dependency>
     </dependencies>
 
