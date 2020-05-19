@@ -24,7 +24,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
-   // private final OncePerRequestFilter oncePerRequestFilter;
+    // private final OncePerRequestFilter oncePerRequestFilter;
     @Autowired
     private TokenAuthenticationFilter tokenAuthenticationFilter;
 
@@ -71,8 +71,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.
                 csrf().disable().
                 authorizeRequests().
-                antMatchers("/user/list").hasAuthority(Role.Roles.ADMIN_ROLE.toString()).
-                antMatchers("/", "/user/**", "/auth/**").permitAll().
+                //antMatchers("/user/list").hasAuthority(Role.Roles.ADMIN_ROLE.toString()).
+                antMatchers("/auth/**").permitAll().
                 anyRequest().authenticated().
                 and().
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).

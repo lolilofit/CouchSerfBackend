@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import main.tables.User;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -32,7 +33,7 @@ public class SecuredUser {
 
     @NotEmpty
     @Column(name = "password")
-   // @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    // @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @ManyToMany(cascade = CascadeType.MERGE)
@@ -41,22 +42,22 @@ public class SecuredUser {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "role_id")})
     @JsonIgnore
     private List<Role> roles;
-/*
-    @Override
-    public String toString() {
-        StringBuilder buffer = new StringBuilder();
+    /*
+        @Override
+        public String toString() {
+            StringBuilder buffer = new StringBuilder();
 
-        buffer.append("[userId:").append(userId).append(", ");
-        buffer.append("username:").append(username).append(", ");
-        buffer.append("password:").append(password).append(", ");
+            buffer.append("[userId:").append(userId).append(", ");
+            buffer.append("username:").append(username).append(", ");
+            buffer.append("password:").append(password).append(", ");
 
-        buffer.append("roles:[");
-        roles.forEach(role -> buffer.append(role.getRoleName()).append(", "));
-        buffer.append("]]");
+            buffer.append("roles:[");
+            roles.forEach(role -> buffer.append(role.getRoleName()).append(", "));
+            buffer.append("]]");
 
-        return buffer.toString();
-    }
-*/
+            return buffer.toString();
+        }
+    */
     public List<String> getStringRoles() {
         List<String> result = new ArrayList<>();
         roles.forEach(role -> result.add(role.getRoleName()));

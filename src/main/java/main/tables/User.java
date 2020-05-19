@@ -17,7 +17,6 @@ public class User implements Serializable {
     @Column(name = "userid")
     private long userid;
 
-    @JsonIgnore
     @Column(name = "username", unique = true)
     private String username;
 

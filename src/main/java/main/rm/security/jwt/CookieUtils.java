@@ -1,8 +1,8 @@
 package main.rm.security.jwt;
 
 
-import com.sun.istack.internal.Nullable;
 
+import javax.annotation.Nullable;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
