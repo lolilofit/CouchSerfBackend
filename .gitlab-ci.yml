@@ -12,7 +12,7 @@ cache:
 build:
   stage: build
   script:
-    - mvn install:install-file -Dfile=WEB-INF/lib/ojdbc8.jar -DgroupId=com.oracle -DartifactId=ojdbc8 -Dversion=19.3 -Dpackaging=jar
+    - mvn install:install-file -Dfile=WEB-INF/lib/ojdbc8.jar -DgroupId=com.oracle -DartifactId=ojdbc8 -Dversion=1.0 -Dpackaging=jar
     - mvn $MAVEN_CLI_OPTS compile
 
 test:
