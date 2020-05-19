@@ -15,13 +15,12 @@ import javax.persistence.*;
 @Table(name = "auth_roles")
 public class SecuredUserRole {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_user_role_seq_gen")
     @SequenceGenerator(name = "sec_user_role_seq_gen", sequenceName = "SECURED_USER_ROLE_TRG")
     @Column(name = "link_id")
     private final Integer linkId;
 
-    @Column(name = "uid")
+    @Column(name = "user_id")
     private final Integer userId;
 
     @Column(name = "role_id")

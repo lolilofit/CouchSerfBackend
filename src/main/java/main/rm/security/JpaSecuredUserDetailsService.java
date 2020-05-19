@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,10 +21,10 @@ public class JpaSecuredUserDetailsService implements UserDetailsService {
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Optional<SecuredUser> user = userRepository.findByUsername(s);
-        if (!user.isPresent())
+        List<SecuredUser> user = userRepository.findByUsername(s);
+        if (user.size() == 0)
             throw new UsernameNotFoundException(s);
-        SecuredUser foundUser = user.get();
+        SecuredUser foundUser = user.get(0);
 
         SecuredUserEntry userDetails = new SecuredUserEntry(foundUser.getUserId(), foundUser.getUsername());
         userDetails.setPassword(foundUser.getPassword());

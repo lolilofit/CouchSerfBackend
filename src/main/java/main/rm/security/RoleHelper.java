@@ -25,7 +25,7 @@ public class RoleHelper {
         Optional<Role> foundRole = roleRepository.findByRoleName(role.toString());
 
         Role resultRole;
-        if (foundRole.isPresent())
+        if (!foundRole.isPresent())
             resultRole = roleRepository.save(new Role(null, role.toString(), null));
         else
             resultRole = foundRole.get();
