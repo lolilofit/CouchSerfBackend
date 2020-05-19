@@ -4,6 +4,8 @@ import main.repository.UsersRepository;
 import main.service.UserService;
 import main.tables.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +19,7 @@ public class UserController {
     private UsersRepository usersRepository;
 
 
-    //@GetMapping(value = "/user/{username}", produces ="application/json")
-    @RequestMapping(value = "user/{username}", method = RequestMethod.GET, produces ="application/json")
+    @RequestMapping(value = "userinfo/{username}", method = RequestMethod.GET, produces ="application/json")
     @ResponseBody
     public User getUserInfo(@PathVariable String username) {
         return userService.findUserByUsername(username);
@@ -28,7 +29,8 @@ public class UserController {
     @RequestMapping(value = "/user/{username}/changeCsRate", method = RequestMethod.PUT)
     @ResponseBody
     public User ChangeUsersCouchSerfRating(@PathVariable String username,
-                                           @RequestParam(value = "rate", required = true) Float rate) {
+                                           @RequestParam(value = "rate", required = true) Float rate,
+                                           @AuthenticationPrincipal UserDetails userDetails) {
         if(rate > 5)
             return null;
         User user = userService.findUserByUsername(username);
