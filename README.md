@@ -4,8 +4,8 @@
 
 Отправка запроса за добавление объявления от имени FirstUser: (Post)
 ..пока что имя должно быть без пробелов
-localhost:8080/hpad - объявление о предоставлении жилья
-localhost:8080/hsad - объявление о поиске жилья
+localhost:8080/advert/add 
+
 
 {"username":"FirstUser",
 "header": "header",
@@ -71,10 +71,10 @@ localhost:8080/user/{имя пользователя}
 
 
 запрос на изменение рейтинга пользователя как съемщика(PUT)
-localhost:8080/user/changeCsRate?username=FirstUser&rate=4
+localhost:8080/user/{имя пользователя}/changeCsRate?rate=4
 
 аналогично запрос для изменения рейтинга как предоставителя жилья
-localhost:8080/user/changeHcRate?username=FirstUser&rate=4
+localhost:8080/user/{имя пользователя}/changeHcRate?rate=4
 
 {
     "comments": [],
@@ -108,9 +108,8 @@ localhost:8080/user/changeHcRate?username=FirstUser&rate=4
 
 добавить комментарий к объявлению (PUT)
 //adId - номер объявления
-localhost:8080/comments/add
+localhost:8080/comments/{adId}/add
 {
-	"adId" : 50,
 	"message": "vaaa",
 	"author": "FirstUser"
 }
@@ -160,7 +159,7 @@ localhost:8080/comments/add
 
 
 Добавить пользователя отозвавшегося на объявление
-localhost:8080/adver/addsubscriber?username=Sec&ad=50
+localhost:8080/adver/{adId}/addsubscriber?username=Sec
 
 {
     "adId": 50,
