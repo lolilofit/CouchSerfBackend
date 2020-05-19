@@ -1,6 +1,5 @@
 package main.controllers;
 
-import main.shortentity.ShortComment;
 import main.repository.AdvertRepository;
 import main.repository.CommentRepository;
 import main.service.UserService;
@@ -8,6 +7,8 @@ import main.tables.Advert;
 import main.tables.Comment;
 import main.tables.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,12 +28,14 @@ public class CommentsController {
     //remove return comment
     @RequestMapping(value = "/{adId}/add", method = RequestMethod.POST, produces ="application/json")
     @ResponseBody
-    public Comment leaveComment(@RequestBody ShortComment comment, @PathVariable Long adId) {
-        User author = userService.findUserByUsername(comment.getAuthor());
+    public Comment leaveComment(@RequestBody String message, @PathVariable Long adId, @AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+
+        User author = userService.findUserByUsername(username);
         Advert advert = advertRepository.findByAdId(adId);
 
         Comment newComment = new Comment();
-        newComment.setMessage(comment.getMessage());
+        newComment.setMessage(message);
         newComment.setAuthor(author);
         newComment.setCommentAdvert(advert);
 

@@ -46,6 +46,7 @@ public class AuthoriationController {
     @Autowired
     private UsersRepository usersRepository;
 
+    @RequestMapping(path = "/login", consumes = "application/json", method = RequestMethod.POST)
     public ResponseEntity<JwtToken> loginRequest(@RequestBody @Valid SecuredUser user, HttpServletResponse response) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         UserDetails userEntry = userDetailsService.loadUserByUsername(user.getUsername());

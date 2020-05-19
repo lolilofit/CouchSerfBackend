@@ -1,21 +1,25 @@
 package main.controllers;
 
 import main.dto.AdvertDTO;
+import main.dto.PlaceDTO;
+import main.repository.PlaceRepository;
+import main.service.PlaceService;
 import main.shortentity.AdvertContainer;
 import main.repository.AdvertRepository;
 import main.repository.CommentRepository;
 import main.service.AdvertService;
 import main.service.UserService;
-import main.tables.Advert;
-import main.tables.AdvertType;
-import main.tables.Comment;
-import main.tables.User;
+import main.tables.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +39,11 @@ public class MainPageController {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private PlaceService placeService;
+
+    @Autowired
+    private PlaceRepository placeRepository;
 
     private Advert addNewAd(Advert advert) {
         User owner = userService.findUserByUsername(advert.getOwner().getUsername());
@@ -82,11 +91,27 @@ public class MainPageController {
         }
     }
 
-    @RequestMapping(value = "/advert/add", method = RequestMethod.POST, produces ="application/json")
+    @RequestMapping(value = "/adchange/add", method = RequestMethod.POST, produces ="application/json")
     @ResponseBody
-    //public Advert newHouseSearchAdvert(@RequestBody AdvertDTO advertDTO) {
-    public Advert newHouseSearchAdvert(@RequestBody AdvertDTO advertDTO) {
+    public Advert newHouseSearchAdvert(@RequestBody AdvertDTO advertDTO, @AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        User owner = userService.findUserByUsername(username);
+        if(owner == null)
+            return null;
+
+        Place place;
+        PlaceDTO placeDTO = advertDTO.getPlace();
+        List<Place> places =  placeService.getPlaceWithFilters(placeDTO.getCountry(), placeDTO.getCity(), placeDTO.getHome());
+        if(places.size() != 0)
+                place = places.get(0);
+        else
+                place = placeRepository.save(new Place(placeDTO));
+        advertDTO.setPlace(null);
+
         Advert advert = new Advert(advertDTO);
+        advert.setOwner(owner);
+        advert.setPlace(place);
+
         return addNewAd(advert);
     }
 
@@ -103,10 +128,11 @@ public class MainPageController {
         return advertContainer;
     }
 
-    @RequestMapping(value = "/adver/{adId}/addsubscriber", method = RequestMethod.PUT)
+    @RequestMapping(value = "/adchange/{adId}/addsubscriber", method = RequestMethod.PUT)
     @ResponseBody
-    public Advert addSubscriber(@RequestParam(value = "username", required = true) String username,
+    public Advert addSubscriber(@AuthenticationPrincipal UserDetails userDetails,
                                 @PathVariable Long adId) {
+        String username = userDetails.getUsername();
         User user = userService.findUserByUsername(username);
 
         if(user == null)

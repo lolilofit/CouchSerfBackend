@@ -8,6 +8,8 @@ public class PlaceDTO implements Serializable {
     private String city;
     private String home;
 
+    public PlaceDTO() {}
+
     public PlaceDTO(String country, String city, String home) {
         this.city = city;
         this.country = country;

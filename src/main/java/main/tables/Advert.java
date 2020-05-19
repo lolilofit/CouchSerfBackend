@@ -64,12 +64,16 @@ public class Advert implements Serializable {
 
     public Advert(AdvertDTO advertDTO) {
         this.adId = advertDTO.getAdId();
-        this.owner = new User(advertDTO.getOwner());
+        if(advertDTO.getOwner() != null)
+            this.owner = new User(advertDTO.getOwner());
+
         this.publicationDate = advertDTO.getPublicationDate();
         this.header = advertDTO.getHeader();
         this.message = advertDTO.getMessage();
         this.advertType = advertDTO.getAdvertType();
-        this.place = new Place(advertDTO.getPlace());
+
+        if(advertDTO.getPlace() != null)
+            this.place = new Place(advertDTO.getPlace());
         this.peopleNumber = advertDTO.getPeopleNumber();
         this.arrivingDate = advertDTO.getArrivingDate();
         this.checkOutDate = advertDTO.getCheckOutDate();
