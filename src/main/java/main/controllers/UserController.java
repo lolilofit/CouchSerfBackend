@@ -29,8 +29,7 @@ public class UserController {
     @RequestMapping(value = "/user/{username}/changeCsRate", method = RequestMethod.PUT)
     @ResponseBody
     public User ChangeUsersCouchSerfRating(@PathVariable String username,
-                                           @RequestParam(value = "rate", required = true) Float rate,
-                                           @AuthenticationPrincipal UserDetails userDetails) {
+                                           @RequestParam(value = "rate", required = true) Float rate) {
         if(rate > 5)
             return null;
         User user = userService.findUserByUsername(username);
