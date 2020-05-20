@@ -1,10 +1,12 @@
 package main.tables;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Data
 @Entity
 @Table(name = "comm")
 public class Comment implements Serializable {
@@ -26,35 +28,4 @@ public class Comment implements Serializable {
     @JoinColumn(name = "ownerId")
     private User author;
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Advert getCommentAdvert() {
-        return commentAdvert;
-    }
-
-    public Long getCommentId() {
-        return commentId;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
-    public void setCommentAdvert(Advert commentAdvert) {
-        this.commentAdvert = commentAdvert;
-    }
-
-    public void setCommentId(Long commentId) {
-        this.commentId = commentId;
-    }
 }

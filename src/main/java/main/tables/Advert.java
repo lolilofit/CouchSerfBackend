@@ -1,7 +1,7 @@
 package main.tables;
 
-import main.dto.AdvertDTO;
-import main.dto.UserDTO;
+import lombok.Data;
+import main.dto.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "Advert")
 public class Advert implements Serializable {
@@ -84,97 +85,5 @@ public class Advert implements Serializable {
             User user = new User(userDTOList.get(i));
             this.subscribers.add(user);
         }
-    }
-
-    public List<User> getSubscribers() {
-        return subscribers;
-    }
-
-    public Long getAdId() {
-        return adId;
-    }
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setAdId(Long adId) {
-        this.adId = adId;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
-
-    public void setSubscribers(List<User> subscribers) {
-        this.subscribers = subscribers;
-    }
-
-    public void addSubscriber(User user) {
-        subscribers.add(user);
-    }
-
-    public Date getPublicationDate() {
-        return publicationDate;
-    }
-
-    public void setPublicationDate(Date publicationDate) {
-        this.publicationDate = publicationDate;
-    }
-
-    public String getHeader() {
-        return header;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public AdvertType getAdvertType() {
-        return advertType;
-    }
-
-    public void setAdvertType(AdvertType advertType) {
-        this.advertType = advertType;
-    }
-
-    public void setHeader(String header) {
-        this.header = header;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Date getArrivingDate() {
-        return arrivingDate;
-    }
-
-    public Date getCheckOutDate() {
-        return checkOutDate;
-    }
-
-    public int getPeopleNumber() {
-        return peopleNumber;
-    }
-
-    public Place getPlace() {
-        return place;
-    }
-
-    public void setPeopleNumber(int peopleNumber) {
-        this.peopleNumber = peopleNumber;
-    }
-
-    public void setArrivingDate(Date arrivingDate) {
-        this.arrivingDate = arrivingDate;
-    }
-
-    public void setPlace(Place place) {
-        this.place = place;
-    }
-
-    public void setCheckOutDate(Date checkOutDate) {
-        this.checkOutDate = checkOutDate;
     }
 }

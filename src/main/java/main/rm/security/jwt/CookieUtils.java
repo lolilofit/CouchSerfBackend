@@ -1,18 +1,19 @@
 package main.rm.security.jwt;
 
-
-
 import javax.annotation.Nullable;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 public class CookieUtils {
 
+    private CookieUtils() {}
+
     public static void saveCookie(String name, String value, int maxAge, HttpServletResponse response) {
-        Cookie JWTtoken = new Cookie(name, value);
-        JWTtoken.setMaxAge(maxAge);
-        JWTtoken.setPath("/");
-        response.addCookie(JWTtoken);
+        Cookie cookie = new Cookie(name, value);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(maxAge);
+        cookie.setPath("/");
+        response.addCookie(cookie);
     }
 
     @Nullable

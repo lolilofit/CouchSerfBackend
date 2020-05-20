@@ -3,7 +3,6 @@ package main.service;
 import main.repository.AdvertRepository;
 import main.repository.UsersRepository;
 import main.tables.Advert;
-import main.tables.AdvertType;
 import main.tables.Place;
 import main.tables.User;
 import org.springframework.beans.factory.annotation.Autowired;

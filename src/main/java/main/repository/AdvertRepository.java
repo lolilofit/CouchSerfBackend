@@ -4,5 +4,5 @@ import main.tables.Advert;
 import org.springframework.data.repository.CrudRepository;
 
 public interface AdvertRepository extends CrudRepository<Advert, Long> {
-    public Advert findByAdId(Long adId);
+    Advert findByAdId(Long adId);
 }

@@ -1,6 +1,5 @@
 package main.rm.security;
 
-import main.rm.security.data.types.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.annotation.PostConstruct;
 
@@ -24,29 +22,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    // private final OncePerRequestFilter oncePerRequestFilter;
     @Autowired
     private TokenAuthenticationFilter tokenAuthenticationFilter;
 
     @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
-
-    @PostConstruct
-    public void init() {
-        System.out.println("");
-    }
-
-    /*
-    @Autowired
-    public SecurityConfiguration(UserDetailsService userDetailsService, TokenAuthenticationFilter tokenAuthenticationFilter, AuthenticationEntryPoint authenticationEntryPoint) {
-        this.userDetailsService = userDetailsService;
-        //this.oncePerRequestFilter = oncePerRequestFilter;
-        this.tokenAuthenticationFilter = tokenAuthenticationFilter;
-        this.authenticationEntryPoint = authenticationEntryPoint;
-    }
-
-     */
-
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -71,7 +51,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.
                 csrf().disable().
                 authorizeRequests().
-                //antMatchers("/user/list").hasAuthority(Role.Roles.ADMIN_ROLE.toString()).
                 antMatchers("/auth/**", "/advert/**", "/userinfo/**").permitAll().
                 anyRequest().authenticated().
                 and().

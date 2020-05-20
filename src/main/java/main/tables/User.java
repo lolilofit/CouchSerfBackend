@@ -1,11 +1,12 @@
 package main.tables;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 import main.dto.UserDTO;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Data
 @Entity
 @Table(name = "Users")
 public class User implements Serializable {
@@ -45,65 +46,4 @@ public class User implements Serializable {
         this.houseProvisionRating = userDTO.getHouseProvisionRating();
         this.houseProvisionRatingsNum = userDTO.getHouseProvisionRatingsNum();
     }
-
-    public long getUserid() {
-        return userid;
-    }
-
-    public void setUserid(long userid) {
-        this.userid = userid;
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public float getCouchSerferRating() {
-        return couchSerferRating;
-    }
-
-    public float getHouseProvisionRating() {
-        return houseProvisionRating;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public long getCouchSerferRatingsNum() {
-        return couchSerferRatingsNum;
-    }
-
-    public long getHouseProvisionRatingsNum() {
-        return houseProvisionRatingsNum;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public void setCouchSerferRating(float couchSerferRating) {
-        this.couchSerferRating = couchSerferRating;
-    }
-
-    public void setCouchSerferRatingsNum(long couchSerferRatingsNum) {
-        this.couchSerferRatingsNum = couchSerferRatingsNum;
-    }
-
-    public void setHouseProvisionRating(float houseProvisionRating) {
-        this.houseProvisionRating = houseProvisionRating;
-    }
-
-    public void setHouseProvisionRatingsNum(long houseProvisionRatingsNum) {
-        this.houseProvisionRatingsNum = houseProvisionRatingsNum;
-    }
-
 }

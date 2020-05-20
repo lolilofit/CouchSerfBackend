@@ -34,6 +34,6 @@ public class Role implements Serializable {
     private List<SecuredUser> users;
 
     public enum Roles {
-        USER_ROLE, ADMIN_ROLE;
+        USER_ROLE, ADMIN_ROLE
     }
 }

@@ -3,7 +3,6 @@ package main.rm.security.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-
 import lombok.Getter;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,7 +15,7 @@ import java.util.function.Function;
 public class JwtUtils implements Serializable {
     @Getter private static final int JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
-    @Getter private static final String CookieName = "JWTToken";
+    @Getter private static final String COOKIE_NAME = "JWTToken";
 
     private static final String SECRET = "demo";
 

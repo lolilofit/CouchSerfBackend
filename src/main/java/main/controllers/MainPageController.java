@@ -2,24 +2,21 @@ package main.controllers;
 
 import main.dto.AdvertDTO;
 import main.dto.PlaceDTO;
-import main.repository.PlaceRepository;
-import main.service.PlaceService;
-import main.shortentity.AdvertContainer;
 import main.repository.AdvertRepository;
 import main.repository.CommentRepository;
+import main.repository.PlaceRepository;
 import main.service.AdvertService;
+import main.service.PlaceService;
 import main.service.UserService;
+import main.shortentity.AdvertContainer;
 import main.tables.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,8 +55,7 @@ public class MainPageController {
         return adverts.stream().sorted(Comparator.comparing(Advert::getPublicationDate)).collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/advert/count", method = RequestMethod.GET, produces ="application/json")
-    @ResponseBody
+    @RequestMapping(value = "/advert/count", method = RequestMethod.GET)
     public Long getAdvertsCount() {
         return advertRepository.count();
     }
@@ -93,7 +89,7 @@ public class MainPageController {
 
     @RequestMapping(value = "/adchange/add", method = RequestMethod.POST, produces ="application/json")
     @ResponseBody
-    public Advert newHouseSearchAdvert(@RequestBody AdvertDTO advertDTO, @AuthenticationPrincipal UserDetails userDetails) {
+    public Advert newAdvert(@RequestBody AdvertDTO advertDTO, @AuthenticationPrincipal UserDetails userDetails) {
         String username = userDetails.getUsername();
         User owner = userService.findUserByUsername(username);
         if(owner == null)
@@ -102,7 +98,7 @@ public class MainPageController {
         Place place;
         PlaceDTO placeDTO = advertDTO.getPlace();
         List<Place> places =  placeService.getPlaceWithFilters(placeDTO.getCountry(), placeDTO.getCity(), placeDTO.getHome());
-        if(places.size() != 0)
+        if(!places.isEmpty())
                 place = places.get(0);
         else
                 place = placeRepository.save(new Place(placeDTO));

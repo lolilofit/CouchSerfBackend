@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends CrudRepository<Comment, Long> {
-    public List<Comment> findByAuthor(User author);
-    public List<Comment> findCommentsByCommentAdvert(Advert advert);
+    List<Comment> findByAuthor(User author);
+    List<Comment> findCommentsByCommentAdvert(Advert advert);
 }

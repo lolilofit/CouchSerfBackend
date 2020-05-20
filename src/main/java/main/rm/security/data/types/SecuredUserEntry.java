@@ -33,7 +33,7 @@ public class SecuredUserEntry implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> resultedAuthorities = new ArrayList<>();
 
-        userAuthorities.forEach((role) -> resultedAuthorities.add(new SimpleGrantedAuthority(role)));
+        userAuthorities.forEach(role -> resultedAuthorities.add(new SimpleGrantedAuthority(role)));
         return resultedAuthorities;
     }
 

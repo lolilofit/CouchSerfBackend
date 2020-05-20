@@ -1,5 +1,6 @@
 package main.rm.security;
 
+import main.dto.SecuredUserDTO;
 import main.repository.UsersRepository;
 import main.rm.security.data.JpaSecuredUserRepository;
 import main.rm.security.data.types.Role;
@@ -17,7 +18,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -46,13 +46,14 @@ public class AuthoriationController {
     @Autowired
     private UsersRepository usersRepository;
 
+
     @RequestMapping(path = "/login", consumes = "application/json", produces = "application/json", method = RequestMethod.POST)
-    public ResponseEntity<JwtToken> loginRequest(@RequestBody @Valid SecuredUser user, HttpServletResponse response) {
+    public ResponseEntity<JwtToken> loginRequest(@RequestBody @Valid SecuredUserDTO user, HttpServletResponse response) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         UserDetails userEntry = userDetailsService.loadUserByUsername(user.getUsername());
         String responseToken = JwtUtils.generateToken(userEntry);
 
-        CookieUtils.saveCookie(JwtUtils.getCookieName(), responseToken, JwtUtils.getJWT_TOKEN_VALIDITY(), response);
+        CookieUtils.saveCookie(JwtUtils.getCOOKIE_NAME(), responseToken, JwtUtils.getJWT_TOKEN_VALIDITY(), response);
         return new ResponseEntity<>(new JwtToken(responseToken), HttpStatus.OK);
     }
 
@@ -64,8 +65,8 @@ public class AuthoriationController {
         String username = securedUser.getUsername();
         List<SecuredUser> foundUser = jpaSecuredUserRepository.findByUsername(username);
 
-        if (foundUser.size() > 0)
-            return new ResponseEntity<>("Username already taken", HttpStatus.BAD_REQUEST);
+        if (!foundUser.isEmpty())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         String encoded = passwordEncoder.encode(securedUser.getPassword());
         securedUser.setPassword(encoded);
@@ -78,6 +79,6 @@ public class AuthoriationController {
         user.setUsername(securedUser.getUsername());
         usersRepository.save(user);
 
-        return new ResponseEntity<>("User created", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

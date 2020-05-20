@@ -4,8 +4,6 @@ import main.repository.UsersRepository;
 import main.service.UserService;
 import main.tables.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +26,7 @@ public class UserController {
     //@PutMapping(path = "/user/changeCsRate",  produces = "application/json")
     @RequestMapping(value = "/user/{username}/changeCsRate", method = RequestMethod.PUT)
     @ResponseBody
-    public User ChangeUsersCouchSerfRating(@PathVariable String username,
+    public User ChangeUserCsRating(@PathVariable String username,
                                            @RequestParam(value = "rate", required = true) Float rate) {
         if(rate > 5)
             return null;
@@ -41,7 +39,7 @@ public class UserController {
 
     @RequestMapping(value = "/user/{username}/changeHcRate", method = RequestMethod.PUT)
     @ResponseBody
-    public User ChangeUsersHouseKeeperRating(@PathVariable String username,
+    public User ChangeUserHkRating(@PathVariable String username,
                                              @RequestParam(value = "rate", required = true) Float rate) {
         if(rate > 5)
             return null;

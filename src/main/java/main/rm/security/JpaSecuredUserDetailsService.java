@@ -19,9 +19,9 @@ public class JpaSecuredUserDetailsService implements UserDetailsService {
 
     @Transactional
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String s) {
         List<SecuredUser> user = userRepository.findByUsername(s);
-        if (user.size() == 0)
+        if (user.isEmpty())
             throw new UsernameNotFoundException(s);
         SecuredUser foundUser = user.get(0);
 

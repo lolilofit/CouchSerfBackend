@@ -31,7 +31,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
         Cookie[] savedCookies = httpServletRequest.getCookies();
-        String token = CookieUtils.getValueOf(JwtUtils.getCookieName(), savedCookies);
+        String token = CookieUtils.getValueOf(JwtUtils.getCOOKIE_NAME(), savedCookies);
 
         if (token == null) {
             String headerToken = httpServletRequest.getHeader("Authorization");

@@ -1,17 +1,14 @@
 package main.rm.security.data.types;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import main.tables.User;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PACKAGE, force = true)
 @Entity
 @Table(name = "secus")
-public class SecuredUser {
+public class SecuredUser implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "su_seq_gen")
     @SequenceGenerator(name = "su_seq_gen", sequenceName = "SECURED_USER_TRG")
@@ -42,22 +39,7 @@ public class SecuredUser {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "role_id")})
     @JsonIgnore
     private List<Role> roles;
-    /*
-        @Override
-        public String toString() {
-            StringBuilder buffer = new StringBuilder();
 
-            buffer.append("[userId:").append(userId).append(", ");
-            buffer.append("username:").append(username).append(", ");
-            buffer.append("password:").append(password).append(", ");
-
-            buffer.append("roles:[");
-            roles.forEach(role -> buffer.append(role.getRoleName()).append(", "));
-            buffer.append("]]");
-
-            return buffer.toString();
-        }
-    */
     public List<String> getStringRoles() {
         List<String> result = new ArrayList<>();
         roles.forEach(role -> result.add(role.getRoleName()));

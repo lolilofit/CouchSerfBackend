@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface PlaceRepository extends CrudRepository<Place, Long> {
-    public List<Place> findByPlaceId(Long placeId);
-    public List<Place> findByCountryAndCityAndHome(String country, String city, String home);
+    List<Place> findByPlaceId(Long placeId);
+    List<Place> findByCountryAndCityAndHome(String country, String city, String home);
 }
