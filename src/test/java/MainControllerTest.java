@@ -6,6 +6,7 @@ import nsu.fit.upprpo.csbackend.repository.UsersRepository;
 import nsu.fit.upprpo.csbackend.security.TokenAuthenticationFilter;
 import nsu.fit.upprpo.csbackend.security.data.types.Role;
 import nsu.fit.upprpo.csbackend.security.data.types.SecuredUserEntry;
+import nsu.fit.upprpo.csbackend.tables.Advert;
 import nsu.fit.upprpo.csbackend.tables.AdvertType;
 import org.junit.Assert;
 import org.junit.Before;
@@ -34,6 +35,7 @@ import javax.servlet.Filter;
 import javax.servlet.http.Cookie;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -56,13 +58,16 @@ public class MainControllerTest {
     @Autowired
     public TokenAuthenticationFilter tokenAuthenticationFilter;
 
-    public MockMvc mockMvc;
-    public ObjectMapper objectMapper;
+
+    private MockMvc mockMvc;
+    private ObjectMapper objectMapper;
+    private Cookie cookie;
 
     @Before
-    public void setup() {
+    public void setup() throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).addFilter(tokenAuthenticationFilter).build();
         this.objectMapper = new ObjectMapper();
+        cookie = takeToken();
     }
 
 
@@ -105,7 +110,6 @@ public class MainControllerTest {
 
     @Test
     public void addAndGetAdvert() throws Exception {
-        Cookie cookie = takeToken();
 
         AdvertDTO advertDTO = new AdvertDTO();
         PlaceDTO placeDTO = new PlaceDTO();
@@ -132,6 +136,12 @@ public class MainControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 
 
-        mockMvc.perform(get("/advert")).andReturn();
+        MvcResult mvcResult = mockMvc.perform(get("/advert")).andReturn();
+
+        String result = Arrays.toString(mvcResult.getResponse().getContentAsByteArray());
+       // List adverts = new ArrayList<>();
+       // adverts = objectMapper.readValue(result, adverts.getClass());
+
+        //Assert.assertEquals(adverts.size(), 1);
     }
 }
