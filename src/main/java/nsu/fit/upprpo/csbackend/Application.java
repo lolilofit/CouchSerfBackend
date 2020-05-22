@@ -1,14 +1,14 @@
 package nsu.fit.upprpo.csbackend;
 
-import nsu.fit.upprpo.csbackend.security.AuthoriationController;
+import nsu.fit.upprpo.csbackend.controllers.AuthoriationController;
 import nsu.fit.upprpo.csbackend.security.data.types.SecuredUser;
 import nsu.fit.upprpo.csbackend.shortentity.UserRegisterInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.text.ParseException;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @SpringBootApplication
