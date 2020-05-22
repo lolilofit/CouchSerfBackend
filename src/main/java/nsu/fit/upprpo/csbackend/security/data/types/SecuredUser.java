@@ -40,7 +40,8 @@ public class SecuredUser implements Serializable {
 
     public List<String> getStringRoles() {
         List<String> result = new ArrayList<>();
-        roles.forEach(role -> result.add(role.getRoleName()));
+        if (roles != null)
+            roles.forEach(role -> result.add(role.getRoleName()));
         return result;
     }
 }
