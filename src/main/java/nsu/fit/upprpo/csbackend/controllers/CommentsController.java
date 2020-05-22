@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(path = "/comments")
+@CrossOrigin(origins = "*")
 public class CommentsController {
     @Autowired
     private AdvertRepository advertRepository;

@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/")
+@CrossOrigin(origins = "*")
 public class MainPageController {
     @Autowired
     private AdvertService advertService;
