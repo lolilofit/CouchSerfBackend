@@ -1,5 +1,3 @@
-package nsu.fit.upprpo.csbackend.security;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -43,18 +41,6 @@ public class AuthoriationControllerTest {
   public AuthoriationControllerTest() {}
 
   @Test
-  @Order(2)
-  public void loginRequest() throws Exception {
-    SecuredUserDTO securedUserDTO = new SecuredUserDTO();
-    securedUserDTO.setUsername("Bob");
-    securedUserDTO.setPassword("Winner");
-
-    this.mockMvc.perform(post("/auth/login").content(objectMapper.writeValueAsString(securedUserDTO)).contentType("application/json"))
-        .andExpect(status().isOk());
-  }
-
-  @Test
-  @Order(1)
   public void registerRequest() throws Exception {
     UserRegisterInfo userRegisterInfo = new UserRegisterInfo();
     userRegisterInfo.setAge(20);
@@ -64,6 +50,14 @@ public class AuthoriationControllerTest {
     userRegisterInfo.setSecuredUser(securedUser);
 
     this.mockMvc.perform(post("/auth/register").content(objectMapper.writeValueAsString(userRegisterInfo)).contentType("application/json"))
-        .andExpect(status().isOk());
+            .andExpect(status().isOk());
+
+
+    SecuredUserDTO securedUserDTO = new SecuredUserDTO();
+    securedUserDTO.setUsername("Bob");
+    securedUserDTO.setPassword("Winner");
+
+    this.mockMvc.perform(post("/auth/login").content(objectMapper.writeValueAsString(securedUserDTO)).contentType("application/json"))
+            .andExpect(status().isOk());
   }
 }
