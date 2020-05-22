@@ -138,10 +138,9 @@ public class MainControllerTest {
 
         MvcResult mvcResult = mockMvc.perform(get("/advert")).andReturn();
 
-        String result = Arrays.toString(mvcResult.getResponse().getContentAsByteArray());
-       // List adverts = new ArrayList<>();
-       // adverts = objectMapper.readValue(result, adverts.getClass());
+        String result = mvcResult.getResponse().getContentAsString();
+        Advert[] adverts = objectMapper.readValue(result, Advert[].class);
 
-        //Assert.assertEquals(adverts.size(), 1);
+        Assert.assertEquals(adverts.length, 1);
     }
 }

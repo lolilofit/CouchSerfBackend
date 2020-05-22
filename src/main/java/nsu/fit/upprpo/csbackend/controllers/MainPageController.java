@@ -75,7 +75,8 @@ public class MainPageController {
                                       @RequestParam(value = "pos", required = false) Integer pos,
                                       @RequestParam(value = "type", required = false) AdvertType advertType) {
         List<Advert> allAdverts =  advertService.getAllAdverts();
-        allAdverts = allAdverts.stream().filter(advert -> advert.getAdvertType().equals(advertType)).collect(Collectors.toList());
+        if(advertType != null)
+            allAdverts = allAdverts.stream().filter(advert -> advert.getAdvertType().equals(advertType)).collect(Collectors.toList());
 
         if(limit == null) {
             logger.info("Get all adverts without filters");
