@@ -71,32 +71,24 @@ public class MainPageController {
 
     @RequestMapping(value = "/advert", method = RequestMethod.GET, produces ="application/json")
     @ResponseBody
-    public List<Advert> getAllAdverts(@RequestParam(value = "limit", required = false) Integer limit,
-                                      @RequestParam(value = "pos", required = false) Integer pos,
+    public List<Advert> getAllAdverts(@RequestParam(value = "limit", required = true) Integer limit,
+                                      @RequestParam(value = "pos", required = true) Integer pos,
                                       @RequestParam(value = "type", required = false) AdvertType advertType) {
         List<Advert> allAdverts =  advertService.getAllAdverts();
         if(advertType != null)
             allAdverts = allAdverts.stream().filter(advert -> advert.getAdvertType().equals(advertType)).collect(Collectors.toList());
 
-        if(limit == null) {
-            logger.info("Get all adverts without filters");
-            return sortByDate(allAdverts);
-        }
-        else {
-            if(pos == null)
-                pos = 0;
-            if(allAdverts.size() < pos)
-                pos = 0;
-            logger.info("Get all adverts with pos=" + pos.toString() + " limit=" + limit.toString());
+        if(allAdverts.size() < pos)
+            pos = 0;
+        logger.info("Get all adverts with pos=" + pos.toString() + " limit=" + limit.toString());
 
-            allAdverts = sortByDate(allAdverts);
+        allAdverts = sortByDate(allAdverts);
 
-            List<Advert> res = new ArrayList<>();
-            for(int i = pos; i < (pos + limit) && i < allAdverts.size(); i++) {
-                res.add(allAdverts.get(i));
-            }
-            return res;
+        List<Advert> res = new ArrayList<>();
+        for(int i = pos; i < (pos + limit) && i < allAdverts.size(); i++) {
+            res.add(allAdverts.get(i));
         }
+        return res;
     }
 
     @RequestMapping(value = "/adchange/add", method = RequestMethod.POST, produces ="application/json")

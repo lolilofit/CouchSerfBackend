@@ -19,7 +19,6 @@ import java.util.List;
 @Table(name = "roles")
 public class Role implements Serializable {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "role_seq_gen")
     @SequenceGenerator(name = "role_seq_gen", sequenceName = "ROLE_TRG")
     @Column(name = "role_id")

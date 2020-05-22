@@ -5,6 +5,7 @@ import nsu.fit.upprpo.csbackend.dto.AdvertDTO;
 import nsu.fit.upprpo.csbackend.dto.UserDTO;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,14 +22,16 @@ public class Advert implements Serializable {
     @Column(name = "adId")
     private Long adId;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "ownerId")
     private User owner;
 
+    @NotNull
     @Column(name = "publicationDate")
     private Date publicationDate;
 
-
+    @NotNull
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "ADVERT_USER",
             joinColumns = {@JoinColumn(name = "ownerId")},
@@ -36,26 +39,32 @@ public class Advert implements Serializable {
     private List<User> subscribers;
 
     //short header for advert on site
+    @NotNull
     @Column(name = "header")
     private String header;
 
+    @NotNull
     @Column(name = "message")
     private String message;
 
-    //@Column(name = "advert_type")
+    @NotNull
     @Enumerated(EnumType.STRING)
     private AdvertType advertType;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "place_id")
     private Place place;
 
+    @NotNull
     @Column(name = "people_number")
     private int peopleNumber;
 
+    @NotNull
     @Column(name = "arriving_date")
     private Date arrivingDate;
 
+    @NotNull
     @Column(name = "check_out_date")
     private Date checkOutDate;
 
