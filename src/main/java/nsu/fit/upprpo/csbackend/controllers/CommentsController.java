@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(path = "/comments")
+@CrossOrigin(origins = "*")
 public class CommentsController {
 
     private static final Logger logger = Logger.getLogger(CommentsController.class);

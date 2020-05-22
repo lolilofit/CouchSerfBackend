@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/")
+@CrossOrigin(origins = "*")
 public class MainPageController {
 
     private static final Logger logger = Logger.getLogger(MainPageController.class);

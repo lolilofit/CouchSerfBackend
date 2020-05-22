@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(value = "/")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     private static final Logger logger = Logger.getLogger(UserController.class);
