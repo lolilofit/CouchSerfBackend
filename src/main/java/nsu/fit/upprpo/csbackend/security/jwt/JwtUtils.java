@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class JwtUtils implements Serializable {
-    @Getter private static final int JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+    @Getter private static final int JWT_TOKEN_VALIDITY = 12 * 60 * 60;
 
     @Getter private static final String COOKIE_NAME = "JWTToken";
 
