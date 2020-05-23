@@ -1,5 +1,3 @@
-
-/*
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nsu.fit.upprpo.csbackend.Application;
 import nsu.fit.upprpo.csbackend.dto.AdvertDTO;
@@ -146,4 +144,3 @@ public class MainControllerTest {
 
 
 }
-*/
