@@ -1,6 +1,7 @@
 package nsu.fit.upprpo.csbackend.security.jwt;
 
-import javax.annotation.Nullable;
+import org.springframework.lang.Nullable;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
