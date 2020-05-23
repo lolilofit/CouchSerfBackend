@@ -22,7 +22,6 @@ public class Advert implements Serializable {
     @Column(name = "adId")
     private Long adId;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "ownerId")
     private User owner;
@@ -51,7 +50,6 @@ public class Advert implements Serializable {
     @Enumerated(EnumType.STRING)
     private AdvertType advertType;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "place_id")
     private Place place;
