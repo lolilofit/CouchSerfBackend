@@ -1,4 +1,3 @@
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nsu.fit.upprpo.csbackend.Application;
 import nsu.fit.upprpo.csbackend.dto.SecuredUserDTO;
