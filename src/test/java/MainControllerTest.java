@@ -132,7 +132,10 @@ public class MainControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 
 
-        MvcResult mvcResult = mockMvc.perform(get("/advert")).andReturn();
+        MvcResult mvcResult = mockMvc.perform(get("/advert?pos=0&limit=10")).andReturn();
+
+        int getStatus = mvcResult.getResponse().getStatus();
+        Assert.assertEquals(getStatus, 200);
 
         String result = mvcResult.getResponse().getContentAsString();
         Advert[] adverts = objectMapper.readValue(result, Advert[].class);

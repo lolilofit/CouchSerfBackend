@@ -78,8 +78,6 @@ public class MainPageController {
         if(advertType != null)
             allAdverts = allAdverts.stream().filter(advert -> advert.getAdvertType().equals(advertType)).collect(Collectors.toList());
 
-        if(allAdverts.size() < pos)
-            pos = 0;
         logger.info("Get all adverts with pos=" + pos.toString() + " limit=" + limit.toString());
 
         allAdverts = sortByDate(allAdverts);
