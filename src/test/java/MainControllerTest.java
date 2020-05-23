@@ -39,8 +39,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @RunWith(SpringRunner.class)
-//@WebAppConfiguration
-//@IntegrationTest
 @SpringBootTest(classes = Application.class)
 public class MainControllerTest {
 
