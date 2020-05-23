@@ -4,6 +4,10 @@ variables:
   MAVEN_CLI_OPTS: "--batch-mode"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
+
+jdk:
+  - openjdk8
+
 cache:
   paths:
     - .m2/repository/
