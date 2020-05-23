@@ -25,10 +25,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByUsername(String username) {
-        List<User> users = usersRepository.findUsersByUsername(username);
-        if(users.isEmpty())
-            return null;
-        //username is unique
-        return users.get(0);
+        return usersRepository.findUserByUsername(username);
     }
 }
