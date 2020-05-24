@@ -20,22 +20,22 @@ public class Advert implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "ad_generator")
     @SequenceGenerator(name = "ad_generator", sequenceName = "AD_SEQ")
-    @Column(name = "adId")
+    @Column(name = "ad_id")
     private Long adId;
 
     @ManyToOne
-    @JoinColumn(name = "ownerId")
+    @JoinColumn(name = "owner_id")
     private User owner;
 
     @NotNull
-    @Column(name = "publicationDate")
+    @Column(name = "publication_date")
     private Date publicationDate;
 
     @NotNull
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "ADVERT_USER",
-            joinColumns = {@JoinColumn(name = "ownerId")},
-            inverseJoinColumns = {@JoinColumn(name = "userid")})
+            joinColumns = {@JoinColumn(name = "owner_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")})
     private List<User> subscribers;
 
     //short header for advert on site

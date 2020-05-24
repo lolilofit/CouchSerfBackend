@@ -15,19 +15,19 @@ public class Comment implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "comment_generator")
     @SequenceGenerator(name = "comment_generator", sequenceName = "COMMENT_SEQ")
-    @Column(name = "commentId")
+    @Column(name = "comment_id")
     private Long commentId;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "adId")
+    @JoinColumn(name = "ad_id")
     private Advert commentAdvert;
 
     @Column(name = "message")
     private String message;
 
     @ManyToOne
-    @JoinColumn(name = "ownerId")
+    @JoinColumn(name = "owner_id")
     private User author;
 
     @Override
