@@ -23,5 +23,7 @@ public class UserRepositoryTest {
     public void getUser() {
         User user = userService.findUserByUsername("testUserService");
         Assert.assertNotNull(user);
+
+        Assert.assertEquals(user.getUsername(), "testUserService");
     }
 }

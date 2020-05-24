@@ -2,13 +2,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import nsu.fit.upprpo.csbackend.Application;
 import nsu.fit.upprpo.csbackend.dto.AdvertDTO;
 import nsu.fit.upprpo.csbackend.dto.PlaceDTO;
+import nsu.fit.upprpo.csbackend.repository.AdvertRepository;
+import nsu.fit.upprpo.csbackend.repository.CommentRepository;
 import nsu.fit.upprpo.csbackend.repository.UsersRepository;
 import nsu.fit.upprpo.csbackend.security.TokenAuthenticationFilter;
 import nsu.fit.upprpo.csbackend.security.data.types.Role;
 import nsu.fit.upprpo.csbackend.security.data.types.SecuredUserEntry;
 import nsu.fit.upprpo.csbackend.shortentity.AdvertContainer;
-import nsu.fit.upprpo.csbackend.tables.Advert;
-import nsu.fit.upprpo.csbackend.tables.AdvertType;
+import nsu.fit.upprpo.csbackend.tables.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -25,7 +27,9 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.servlet.http.Cookie;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,6 +48,11 @@ public class MainControllerTest {
     @Autowired
     public TokenAuthenticationFilter tokenAuthenticationFilter;
 
+    @Autowired
+    public CommentRepository commentRepository;
+
+    @Autowired
+    public AdvertRepository advertRepository;
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
@@ -69,6 +78,11 @@ public class MainControllerTest {
 
     @Test
     public void addAdvert() throws Exception {
+        Iterable<Advert> prevAdverts = advertRepository.findAll();
+        AtomicInteger prevSize = new AtomicInteger();
+        prevAdverts.forEach(advert -> {
+            prevSize.getAndIncrement();
+        });
 
         AdvertDTO advertDTO = new AdvertDTO();
         PlaceDTO placeDTO = new PlaceDTO();
@@ -93,6 +107,35 @@ public class MainControllerTest {
 
         mockMvc.perform(post("/adchange/add").cookie(cookie).content(jsonAd)
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+
+        Iterable<Advert> adverts = advertRepository.findAll();
+        AtomicInteger size = new AtomicInteger();
+        adverts.forEach(advert -> {
+            size.getAndIncrement();
+        });
+        Assert.assertTrue(size.get() > 0);
+
+        Advert advert = adverts.iterator().next();
+        Place place = advert.getPlace();
+
+        Assert.assertEquals(placeDTO.getCity(), place.getCity());
+        Assert.assertEquals(placeDTO.getCountry(), place.getCountry());
+        Assert.assertEquals(placeDTO.getHome(), place.getHome());
+
+        Assert.assertEquals(advertDTO.getMessage(), advert.getMessage());
+        Assert.assertEquals(advert.getAdvertType(), advertDTO.getAdvertType());
+        Assert.assertEquals(advertDTO.getArrivingDate(), advert.getArrivingDate());
+        Assert.assertEquals(advertDTO.getCheckOutDate(), advert.getCheckOutDate());
+        Assert.assertEquals(advertDTO.getPeopleNumber(), advert.getPeopleNumber());
+        Assert.assertEquals(advertDTO.getHeader(), advert.getHeader());
+
+        Date publicationDate = advert.getPublicationDate();
+        Date currentDate = new Date(System.currentTimeMillis());
+        Assert.assertTrue(publicationDate.equals(currentDate) || (publicationDate.compareTo(currentDate) < 0));
+
+        User owner = advert.getOwner();
+        Assert.assertEquals(owner.getUsername(), "tester");
+        Assert.assertEquals(owner.getAge(), 23);
     }
 
 
@@ -106,7 +149,7 @@ public class MainControllerTest {
         String result = mvcResult.getResponse().getContentAsString();
         Advert[] adverts = objectMapper.readValue(result, Advert[].class);
 
-        Assert.assertEquals(adverts.length, 1);
+        Assert.assertTrue(adverts.length > 0);
     }
 
     @Test
@@ -139,7 +182,7 @@ public class MainControllerTest {
 
     @Test
     public void getOneAdvert() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/advert/50")).andReturn();
+        MvcResult mvcResult = mockMvc.perform(get("/advert/1")).andReturn();
 
         int status = mvcResult.getResponse().getStatus();
         Assert.assertEquals(status, 200);
@@ -152,12 +195,40 @@ public class MainControllerTest {
     public void subscriberAdd() throws Exception {
         cookie = AuthorizationUtils.takeToken("usr", "1234", mockMvc, objectMapper);
 
-        mockMvc.perform(put("/adchange/50/addsubscriber").cookie(cookie)).andExpect(status().isOk());
+        MvcResult mvcResult = mockMvc.perform(put("/adchange/1/addsubscriber").cookie(cookie)).andReturn();
+
+        MockHttpServletResponse resp = mvcResult.getResponse();
+        Assert.assertEquals(200, resp.getStatus());
+
+        String res = resp.getContentAsString();
+        Advert advert = objectMapper.readValue(res, Advert.class);
+
+        Long adId = advert.getAdId();
+        Assert.assertEquals(new Long(1), adId);
     }
 
     @Test
     public void leaveComment() throws Exception {
-        mockMvc.perform(post("/comments/50/add").content("leave message").cookie(cookie))
-                .andExpect(status().isOk());
+        MvcResult mvcResult = mockMvc.perform(post("/comments/1/add").content("leave message").cookie(cookie)).andReturn();
+
+        MockHttpServletResponse resp = mvcResult.getResponse();
+        Assert.assertEquals(200, resp.getStatus());
+
+        String res = resp.getContentAsString();
+        AdvertContainer advertContainer = objectMapper.readValue(res, AdvertContainer.class);
+
+        Advert advert = advertRepository.findByAdId(1L);
+        List<Comment> comments = commentRepository.findCommentsByCommentAdvert(advert);
+        int commentsSize = comments.size();
+        Assert.assertTrue(commentsSize > 0);
+
+        List<Comment> advertComments = advertContainer.getComments();
+        Assert.assertEquals(advertComments.get(0).getMessage(), "leave message");
+
+
+        Comment comment = advertComments.get(0);
+        Assert.assertEquals(comment.toString(), objectMapper.writeValueAsString(comment));
+        Assert.assertTrue(comment.hashCode() > 0);
+        Assert.assertEquals(comment, comment);
     }
 }

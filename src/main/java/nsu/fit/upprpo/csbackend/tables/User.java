@@ -1,7 +1,8 @@
 package nsu.fit.upprpo.csbackend.tables;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
-import nsu.fit.upprpo.csbackend.dto.UserDTO;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -38,12 +39,46 @@ public class User implements Serializable {
 
     public User() {}
 
-    public User(UserDTO userDTO) {
-        this.age = userDTO.getAge();
-        this.username = userDTO.getUsername();
-        this.couchSerferRating = userDTO.getCouchSerferRating();
-        this.couchSerferRatingsNum = userDTO.getCouchSerferRatingsNum();
-        this.houseProvisionRating = userDTO.getHouseProvisionRating();
-        this.houseProvisionRatingsNum = userDTO.getHouseProvisionRatingsNum();
+    @Override
+    public String toString() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    @Override
+    public int hashCode() {
+        int sum = age;
+
+        int cr = (int)couchSerferRating;
+        int crnum = (int)couchSerferRatingsNum;
+        int usernameHash = username.hashCode();
+        int hp = (int)houseProvisionRating;
+        int hpnum = (int)houseProvisionRatingsNum;
+
+        sum += cr;
+        sum += crnum;
+        sum += usernameHash;
+        sum += hp;
+        sum += hpnum;
+
+        return sum;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof  User))
+            return false;
+        User user = (User) o;
+        return user.getUsername().equals(username)
+                && age == user.getAge()
+                && couchSerferRating == user.getCouchSerferRating()
+                && couchSerferRatingsNum == user.getCouchSerferRatingsNum()
+                && houseProvisionRating == user.getHouseProvisionRating()
+                && houseProvisionRatingsNum == user.houseProvisionRatingsNum;
     }
 }

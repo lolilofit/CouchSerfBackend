@@ -1,6 +1,8 @@
 package nsu.fit.upprpo.csbackend.security.data.types;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -43,5 +45,29 @@ public class SecuredUser implements Serializable {
         if (roles != null)
             roles.forEach(role -> result.add(role.getRoleName()));
         return result;
+    }
+
+    @Override
+    public String toString() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    @Override
+    public int hashCode() {
+        return username.hashCode() + password.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof  SecuredUser))
+            return false;
+        SecuredUser securedUser = (SecuredUser) o;
+        return securedUser.getUsername().equals(this.username) && securedUser.getPassword().equals(this.password);
     }
 }

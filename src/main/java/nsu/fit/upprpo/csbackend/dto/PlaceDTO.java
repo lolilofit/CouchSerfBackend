@@ -1,6 +1,9 @@
 package nsu.fit.upprpo.csbackend.dto;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
+import nsu.fit.upprpo.csbackend.tables.Place;
 
 import java.io.Serializable;
 
@@ -17,5 +20,29 @@ public class PlaceDTO implements Serializable {
         this.city = city;
         this.country = country;
         this.home = home;
+    }
+
+    @Override
+    public String toString() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    @Override
+    public int hashCode() {
+        return country.hashCode() + city.hashCode() + home.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof PlaceDTO))
+            return false;
+        PlaceDTO place = (PlaceDTO) o;
+        return country.equals(place.getCountry()) && city.equals(place.getCity()) && home.equals(place.getHome());
     }
 }

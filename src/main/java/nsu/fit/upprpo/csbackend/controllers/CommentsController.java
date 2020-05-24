@@ -32,8 +32,6 @@ public class CommentsController {
     @Autowired
     private UserService userService;
 
-
-    //remove return comment
     @RequestMapping(value = "/{adId}/add", method = RequestMethod.POST, produces ="application/json")
     @ResponseBody
     public AdvertContainer leaveComment(@RequestBody String message, @PathVariable Long adId, @AuthenticationPrincipal UserDetails userDetails) {

@@ -7,6 +7,7 @@ import nsu.fit.upprpo.csbackend.security.data.types.SecuredUserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -25,10 +26,7 @@ public class RoleHelper {
         Optional<Role> foundRole = roleRepository.findByRoleName(role.toString());
 
         Role resultRole;
-        if (!foundRole.isPresent())
-            resultRole = roleRepository.save(new Role(null, role.toString(), null));
-        else
-            resultRole = foundRole.get();
+        resultRole = foundRole.orElseGet(() -> roleRepository.save(new Role(null, role.toString(), new ArrayList<>())));
         return roleLinkRepository.save(new SecuredUserRole(null, uid, resultRole.getRoleId()));
     }
 }

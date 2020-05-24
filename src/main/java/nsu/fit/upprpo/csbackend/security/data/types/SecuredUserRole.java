@@ -1,6 +1,8 @@
 package nsu.fit.upprpo.csbackend.security.data.types;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,4 +27,38 @@ public class SecuredUserRole {
 
     @Column(name = "role_id")
     private final Integer roleId;
+
+    @Override
+    public String toString() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    @Override
+    public int hashCode() {
+        int res = 0;
+        if(linkId != null)
+            res += linkId.hashCode();
+        if(roleId != null)
+            res += roleId.hashCode();
+        if(userId != null)
+            res += userId.hashCode();
+        return res;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof SecuredUserRole))
+            return false;
+        SecuredUserRole securedUserRole = (SecuredUserRole) o;
+        return securedUserRole.getLinkId().equals(linkId) &&
+                securedUserRole.getRoleId().equals(roleId) &&
+                securedUserRole.getUserId().equals(userId);
+
+    }
 }

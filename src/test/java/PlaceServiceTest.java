@@ -23,10 +23,17 @@ public class PlaceServiceTest {
 
     @Test
     public void getPlace() {
-        List<Place> place = placeService.getPlaceWithFilters("Russia", "Tomsk", "Vertk");
-        Assert.assertEquals(1, place.size());
+        List<Place> places = placeService.getPlaceWithFilters("Russia", "Tomsk", "Vertk");
+        Assert.assertEquals(1, places.size());
 
-        place = placeService.getPlaceWithFilters(null, "Tomsk", "Vertk");
-        Assert.assertEquals(0, place.size());
+        Place place = places.get(0);
+
+        Assert.assertEquals(place.getCity(), "Tomsk");
+        Assert.assertEquals(place.getCountry(), "Russia");
+        Assert.assertEquals(place.getHome(), "Vertk");
+
+        places = placeService.getPlaceWithFilters(null, "Tomsk", "Vertk");
+        Assert.assertEquals(0, places.size());
+
     }
 }

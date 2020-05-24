@@ -33,9 +33,6 @@ public class AuthoriationControllerTest {
     this.objectMapper = new ObjectMapper();
   }
 
-
-  public AuthoriationControllerTest() {}
-
   @Test
   public void LoginTest() throws Exception {
     SecuredUserDTO securedUserDTO = new SecuredUserDTO();
@@ -51,18 +48,7 @@ public class AuthoriationControllerTest {
 
   @Test
   public void aregisterRequest() throws Exception {
-    UserRegisterInfo userRegisterInfo = new UserRegisterInfo();
-    userRegisterInfo.setAge(20);
-    SecuredUser securedUser = new SecuredUser();
-    securedUser.setUsername("Bob");
-    securedUser.setPassword("Winner");
-    userRegisterInfo.setSecuredUser(securedUser);
-
-    this.mockMvc.perform(post("/auth/register")
-            .content(objectMapper.writeValueAsString(userRegisterInfo))
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
-
+    AuthorizationUtils.registerNewUser("Bob", "Winner", objectMapper, mockMvc);
   }
 }
 

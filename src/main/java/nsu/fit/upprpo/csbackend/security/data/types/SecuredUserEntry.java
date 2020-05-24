@@ -1,5 +1,7 @@
 package nsu.fit.upprpo.csbackend.security.data.types;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -7,6 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,6 +32,7 @@ public class SecuredUserEntry implements UserDetails {
     @Setter
     private List<String> userAuthorities;
 
+    @Transactional
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> resultedAuthorities = new ArrayList<>();
@@ -55,5 +59,37 @@ public class SecuredUserEntry implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    @Override
+    public int hashCode() {
+        int hc = userAuthorities.stream().mapToInt(String::hashCode).sum();
+        return username.hashCode() + password.hashCode() + hc;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof SecuredUserEntry))
+            return false;
+        SecuredUserEntry securedUserEntry = (SecuredUserEntry) o;
+
+        List<String> userAuth = securedUserEntry.getUserAuthorities();
+        if(userAuth.size() != this.userAuthorities.size())
+            return false;
+        for(int i = 0; i < userAuthorities.size(); i++)
+            if(!userAuth.get(i).equals(this.userAuthorities.get(i)))
+                return false;
+        return username.equals(securedUserEntry.getUsername()) && password.equals(securedUserEntry.getPassword());
     }
 }

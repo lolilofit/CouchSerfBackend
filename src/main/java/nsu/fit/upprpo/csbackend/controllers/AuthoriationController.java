@@ -2,6 +2,7 @@ package nsu.fit.upprpo.csbackend.controllers;
 
 import nsu.fit.upprpo.csbackend.dto.SecuredUserDTO;
 import nsu.fit.upprpo.csbackend.repository.UsersRepository;
+import nsu.fit.upprpo.csbackend.security.JpaSecuredUserDetailsService;
 import nsu.fit.upprpo.csbackend.security.RoleHelper;
 import nsu.fit.upprpo.csbackend.security.data.JpaSecuredUserRepository;
 import nsu.fit.upprpo.csbackend.security.data.types.Role;
@@ -18,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +34,7 @@ public class AuthoriationController {
     private static final Logger logger = Logger.getLogger(AuthoriationController.class);
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private JpaSecuredUserDetailsService jpaSecuredUserDetailsService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -57,7 +57,7 @@ public class AuthoriationController {
         logger.info("Try to login user " + user.getUsername());
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-        UserDetails userEntry = userDetailsService.loadUserByUsername(user.getUsername());
+        UserDetails userEntry = jpaSecuredUserDetailsService.loadUserByUsername(user.getUsername());
         String responseToken = JwtUtils.generateToken(userEntry);
 
         CookieUtils.saveCookie(JwtUtils.getCOOKIE_NAME(), responseToken, JwtUtils.getJWT_TOKEN_VALIDITY(), response);

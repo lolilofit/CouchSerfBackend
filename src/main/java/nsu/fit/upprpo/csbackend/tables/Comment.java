@@ -1,6 +1,8 @@
 package nsu.fit.upprpo.csbackend.tables;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -28,4 +30,27 @@ public class Comment implements Serializable {
     @JoinColumn(name = "ownerId")
     private User author;
 
+    @Override
+    public String toString() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    @Override
+    public int hashCode() {
+        return message.hashCode() + author.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof Comment))
+            return false;
+        Comment comment = (Comment) o;
+        return message.equals(comment.getMessage()) && author.equals(comment.getAuthor());
+    }
 }
