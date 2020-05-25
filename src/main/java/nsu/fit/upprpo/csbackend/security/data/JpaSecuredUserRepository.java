@@ -1,5 +1,6 @@
 package nsu.fit.upprpo.csbackend.security.data;
 
+
 import nsu.fit.upprpo.csbackend.security.data.types.SecuredUser;
 import org.springframework.data.repository.CrudRepository;
 

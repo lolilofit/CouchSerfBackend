@@ -33,7 +33,7 @@ public class UserController {
     public User changeUserCsRating(@PathVariable String username,
                                            @RequestParam(value = "rate", required = true) Float rate) {
         if(rate > 5 || rate < 0) {
-            logger.error("Change cs rating, username whose rating is changing ="+username + " RATING SHOULD BE I RANGE [1, 5]");
+            logger.error("Change cs rating, username whose rating is changing ="+username + " RATING SHOULD BE I RANGE [0, 5]");
             return null;
         }
         logger.info("Change cs rating, username whose rating is changing ="+username);
@@ -50,7 +50,7 @@ public class UserController {
     public User changeUserHkRating(@PathVariable String username,
                                              @RequestParam(value = "rate", required = true) Float rate) {
         if(rate > 5 || rate < 0) {
-            logger.error("Change hk rating, username whose rating is changing ="+username + " RATING SHOULD BE I RANGE [1, 5]");
+            logger.error("Change hk rating, username whose rating is changing ="+username + " RATING SHOULD BE I RANGE [0, 5]");
             return null;
         }
         logger.info("Change hk rating, username whose rating is changing ="+username);
