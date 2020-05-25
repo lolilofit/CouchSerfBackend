@@ -9,6 +9,7 @@ import nsu.fit.upprpo.csbackend.security.TokenAuthenticationFilter;
 import nsu.fit.upprpo.csbackend.security.data.types.Role;
 import nsu.fit.upprpo.csbackend.security.data.types.SecuredUserEntry;
 import nsu.fit.upprpo.csbackend.shortentity.AdvertContainer;
+import nsu.fit.upprpo.csbackend.shortentity.ShortComment;
 import nsu.fit.upprpo.csbackend.tables.*;
 import org.junit.Assert;
 import org.junit.Before;
@@ -209,7 +210,11 @@ public class MainControllerTest {
 
     @Test
     public void leaveComment() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(post("/comments/1/add").content("leave message").cookie(cookie)).andReturn();
+        ShortComment shortComment = new ShortComment();
+        shortComment.setMessage("leave message");
+
+        MvcResult mvcResult = mockMvc.perform(post("/comments/1/add").
+                content(objectMapper.writeValueAsBytes(shortComment)).contentType(MediaType.APPLICATION_JSON).cookie(cookie)).andReturn();
 
         MockHttpServletResponse resp = mvcResult.getResponse();
         Assert.assertEquals(200, resp.getStatus());

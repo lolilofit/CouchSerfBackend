@@ -4,6 +4,7 @@ import nsu.fit.upprpo.csbackend.repository.AdvertRepository;
 import nsu.fit.upprpo.csbackend.repository.CommentRepository;
 import nsu.fit.upprpo.csbackend.service.UserService;
 import nsu.fit.upprpo.csbackend.shortentity.AdvertContainer;
+import nsu.fit.upprpo.csbackend.shortentity.ShortComment;
 import nsu.fit.upprpo.csbackend.tables.Advert;
 import nsu.fit.upprpo.csbackend.tables.Comment;
 import nsu.fit.upprpo.csbackend.tables.User;
@@ -37,9 +38,9 @@ public class CommentsController {
         this.userService = userService;
     }
 
-    @PostMapping(value = "/{adId}/add", produces ="application/json")
+    @PostMapping(value = "/{adId}/add", produces ="application/json", consumes = "application/json")
     @ResponseBody
-    public AdvertContainer leaveComment(@RequestBody String message, @PathVariable Long adId, @AuthenticationPrincipal UserDetails userDetails) {
+    public AdvertContainer leaveComment(@RequestBody ShortComment message, @PathVariable Long adId, @AuthenticationPrincipal UserDetails userDetails) {
         String username = userDetails.getUsername();
         logger.info("add comment " + message + "; author " + username);
 
@@ -47,7 +48,7 @@ public class CommentsController {
         Advert advert = advertRepository.findByAdId(adId);
 
         Comment newComment = new Comment();
-        newComment.setMessage(message);
+        newComment.setMessage(message.getMessage());
         newComment.setAuthor(author);
         newComment.setCommentAdvert(advert);
 
