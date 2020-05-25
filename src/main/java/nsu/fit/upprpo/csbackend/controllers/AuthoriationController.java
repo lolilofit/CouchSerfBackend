@@ -1,11 +1,14 @@
 package nsu.fit.upprpo.csbackend.controllers;
 
+import java.util.List;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import nsu.fit.upprpo.csbackend.dto.SecuredUserDTO;
 import nsu.fit.upprpo.csbackend.repository.UsersRepository;
 import nsu.fit.upprpo.csbackend.security.JpaSecuredUserDetailsService;
 import nsu.fit.upprpo.csbackend.security.RoleHelper;
 import nsu.fit.upprpo.csbackend.security.data.JpaSecuredUserRepository;
-import nsu.fit.upprpo.csbackend.security.data.types.Role;
+import nsu.fit.upprpo.csbackend.security.data.types.Role.Roles;
 import nsu.fit.upprpo.csbackend.security.data.types.SecuredUser;
 import nsu.fit.upprpo.csbackend.security.jwt.CookieUtils;
 import nsu.fit.upprpo.csbackend.security.jwt.JwtToken;
@@ -20,15 +23,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import java.util.List;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/auth")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class AuthoriationController {
 
     private static final Logger logger = Logger.getLogger(AuthoriationController.class);
@@ -65,8 +69,7 @@ public class AuthoriationController {
     }
 
 
-    @RequestMapping(path = "/register", consumes = "application/json", produces = "application/json",
-            method = RequestMethod.POST)
+    @PostMapping(path = "/register", consumes = "application/json", produces = "application/json")
     public ResponseEntity<String> registerRequest(@RequestBody @Valid UserRegisterInfo userRegisterInfo) {
         SecuredUser securedUser = userRegisterInfo.getSecuredUser();
         String username = securedUser.getUsername();
@@ -84,7 +87,7 @@ public class AuthoriationController {
         securedUser.setPassword(encoded);
 
         SecuredUser createdUser = jpaSecuredUserRepository.save(securedUser);
-        roleHelper.addRoleTo(createdUser.getUserId(), Role.Roles.USER_ROLE);
+        roleHelper.addRoleTo(createdUser.getUserId(), Roles.USER_ROLE);
 
         User user = new User();
         user.setAge(userRegisterInfo.getAge());

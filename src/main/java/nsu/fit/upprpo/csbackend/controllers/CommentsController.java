@@ -18,21 +18,26 @@ import java.util.List;
 
 @Controller
 @RequestMapping(path = "/comments")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class CommentsController {
 
     private static final Logger logger = Logger.getLogger(CommentsController.class);
 
-    @Autowired
-    private AdvertRepository advertRepository;
+    private final AdvertRepository advertRepository;
+
+    private final CommentRepository commentRepository;
+
+    private final UserService userService;
 
     @Autowired
-    private CommentRepository commentRepository;
+    public CommentsController(AdvertRepository advertRepository,
+        CommentRepository commentRepository, UserService userService) {
+        this.advertRepository = advertRepository;
+        this.commentRepository = commentRepository;
+        this.userService = userService;
+    }
 
-    @Autowired
-    private UserService userService;
-
-    @RequestMapping(value = "/{adId}/add", method = RequestMethod.POST, produces ="application/json")
+    @PostMapping(value = "/{adId}/add", produces ="application/json")
     @ResponseBody
     public AdvertContainer leaveComment(@RequestBody String message, @PathVariable Long adId, @AuthenticationPrincipal UserDetails userDetails) {
         String username = userDetails.getUsername();

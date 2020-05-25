@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
-@NoArgsConstructor(access = AccessLevel.PACKAGE, force = true)
+@NoArgsConstructor(access = AccessLevel.PUBLIC, force = true)
 @AllArgsConstructor
 @Entity
 @Table(name = "roles")

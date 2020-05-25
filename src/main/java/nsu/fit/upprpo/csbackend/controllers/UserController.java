@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(value = "/")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class UserController {
 
     private static final Logger logger = Logger.getLogger(UserController.class);
@@ -22,16 +22,15 @@ public class UserController {
     private UsersRepository usersRepository;
 
 
-    @RequestMapping(value = "userinfo/{username}", method = RequestMethod.GET, produces ="application/json")
+    @GetMapping(value = "userinfo/{username}", produces ="application/json")
     @ResponseBody
     public User getUserInfo(@PathVariable String username) {
         return userService.findUserByUsername(username);
     }
 
-    //@PutMapping(path = "/user/changeCsRate",  produces = "application/json")
-    @RequestMapping(value = "/user/{username}/changeCsRate", method = RequestMethod.PUT)
+    @PutMapping(value = "/user/{username}/changeCsRate")
     @ResponseBody
-    public User сhangeUserCsRating(@PathVariable String username,
+    public User changeUserCsRating(@PathVariable String username,
                                            @RequestParam(value = "rate", required = true) Float rate) {
         if(rate > 5 || rate < 0) {
             logger.error("Change cs rating, username whose rating is changing ="+username + " RATING SHOULD BE I RANGE [1, 5]");
@@ -46,9 +45,9 @@ public class UserController {
         return usersRepository.save(user);
     }
 
-    @RequestMapping(value = "/user/{username}/changeHcRate", method = RequestMethod.PUT)
+    @PutMapping(value = "/user/{username}/changeHcRate")
     @ResponseBody
-    public User сhangeUserHkRating(@PathVariable String username,
+    public User changeUserHkRating(@PathVariable String username,
                                              @RequestParam(value = "rate", required = true) Float rate) {
         if(rate > 5 || rate < 0) {
             logger.error("Change hk rating, username whose rating is changing ="+username + " RATING SHOULD BE I RANGE [1, 5]");
