@@ -25,28 +25,35 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class MainPageController {
 
     private static final Logger logger = Logger.getLogger(MainPageController.class);
 
-    @Autowired
-    private AdvertService advertService;
+    private final AdvertService advertService;
+
+    private final UserService userService;
+
+    private final AdvertRepository advertRepository;
+
+    private final CommentRepository commentRepository;
+
+    private final PlaceService placeService;
+
+    private final PlaceRepository placeRepository;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    private AdvertRepository advertRepository;
-
-    @Autowired
-    private CommentRepository commentRepository;
-
-    @Autowired
-    private PlaceService placeService;
-
-    @Autowired
-    private PlaceRepository placeRepository;
+    public MainPageController(AdvertService advertService,
+        UserService userService, AdvertRepository advertRepository,
+        CommentRepository commentRepository, PlaceService placeService,
+        PlaceRepository placeRepository) {
+        this.advertService = advertService;
+        this.userService = userService;
+        this.advertRepository = advertRepository;
+        this.commentRepository = commentRepository;
+        this.placeService = placeService;
+        this.placeRepository = placeRepository;
+    }
 
     private Advert addNewAd(Advert advert) {
         User owner = userService.findUserByUsername(advert.getOwner().getUsername());
@@ -61,7 +68,7 @@ public class MainPageController {
         return adverts.stream().sorted(Comparator.comparing(Advert::getPublicationDate)).collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/advert/count", method = RequestMethod.GET)
+    @GetMapping(value = "/advert/count")
     @ResponseBody
     public Long getAdvertsCount() {
         logger.info("Get adverts count");
@@ -69,10 +76,10 @@ public class MainPageController {
     }
 
 
-    @RequestMapping(value = "/advert", method = RequestMethod.GET, produces ="application/json")
+    @GetMapping(value = "/advert", produces ="application/json")
     @ResponseBody
-    public List<Advert> getAllAdverts(@RequestParam(value = "limit", required = true) Integer limit,
-                                      @RequestParam(value = "pos", required = true) Integer pos,
+    public List<Advert> getAllAdverts(@RequestParam(value = "limit") Integer limit,
+                                      @RequestParam(value = "pos") Integer pos,
                                       @RequestParam(value = "type", required = false) AdvertType advertType) {
         List<Advert> allAdverts =  advertService.getAllAdverts();
         if(advertType != null)
@@ -89,7 +96,7 @@ public class MainPageController {
         return res;
     }
 
-    @RequestMapping(value = "/adchange/add", method = RequestMethod.POST, produces ="application/json")
+    @PostMapping(value = "/adchange/add", produces ="application/json")
     @ResponseBody
     public Advert newAdvert(@RequestBody AdvertDTO advertDTO, @AuthenticationPrincipal UserDetails userDetails) {
         String username = userDetails.getUsername();
@@ -116,7 +123,7 @@ public class MainPageController {
         return addNewAd(advert);
     }
 
-    @RequestMapping(value = "/advert/{adId}", method = RequestMethod.GET)
+    @GetMapping(value = "/advert/{adId}")
     @ResponseBody
     public AdvertContainer getAdvertInfo(@PathVariable Long adId) {
         logger.info("Get advert with id=" + adId.toString());
@@ -131,7 +138,7 @@ public class MainPageController {
         return advertContainer;
     }
 
-    @RequestMapping(value = "/adchange/{adId}/addsubscriber", method = RequestMethod.PUT)
+    @PutMapping(value = "/adchange/{adId}/addsubscriber")
     @ResponseBody
     public Advert addSubscriber(@AuthenticationPrincipal UserDetails userDetails,
                                 @PathVariable Long adId) {
