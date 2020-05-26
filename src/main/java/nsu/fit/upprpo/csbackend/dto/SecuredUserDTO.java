@@ -2,9 +2,11 @@ package nsu.fit.upprpo.csbackend.dto;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nsu.fit.upprpo.csbackend.security.data.types.SecuredUser;
+import org.apache.log4j.Logger;
 
 public class SecuredUserDTO {
+    private static final Logger logger = Logger.getLogger(SecuredUserDTO.class);
+
     private String username;
     private String password;
 
@@ -31,7 +33,7 @@ public class SecuredUserDTO {
         try {
             return objectMapper.writeValueAsString(this);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return "";
     }

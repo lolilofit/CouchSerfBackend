@@ -135,8 +135,8 @@ public class MainControllerTest {
         Assert.assertTrue(publicationDate.equals(currentDate) || (publicationDate.compareTo(currentDate) < 0));
 
         User owner = advert.getOwner();
-        Assert.assertEquals(owner.getUsername(), "tester");
-        Assert.assertEquals(owner.getAge(), 23);
+        Assert.assertEquals("tester", owner.getUsername());
+        Assert.assertEquals(23, owner.getAge());
     }
 
 
@@ -144,8 +144,8 @@ public class MainControllerTest {
     public void getAdverts() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get("/advert?pos=0&limit=10")).andReturn();
 
-        int getStatus = mvcResult.getResponse().getStatus();
-        Assert.assertEquals(getStatus, 200);
+        int status = mvcResult.getResponse().getStatus();
+        Assert.assertEquals( 200, status);
 
         String result = mvcResult.getResponse().getContentAsString();
         Advert[] adverts = objectMapper.readValue(result, Advert[].class);
@@ -158,12 +158,12 @@ public class MainControllerTest {
         MvcResult mvcResult = mockMvc.perform(get("/advert?pos=0&limit=10&type=HOUSE_SEARCH")).andReturn();
 
         int getStatus = mvcResult.getResponse().getStatus();
-        Assert.assertEquals(getStatus, 200);
+        Assert.assertEquals(200, getStatus);
 
         String result = mvcResult.getResponse().getContentAsString();
         Advert[] adverts = objectMapper.readValue(result, Advert[].class);
 
-        Assert.assertEquals(adverts.length, 1);
+        Assert.assertEquals(1, adverts.length);
     }
 
 
@@ -172,12 +172,12 @@ public class MainControllerTest {
         MvcResult mvcResult = mockMvc.perform(get("/advert?pos=0&limit=10&type=HOUSE_PROVISION")).andReturn();
 
         int getStatus = mvcResult.getResponse().getStatus();
-        Assert.assertEquals(getStatus, 200);
+        Assert.assertEquals(200, getStatus);
 
         String result = mvcResult.getResponse().getContentAsString();
         Advert[] adverts = objectMapper.readValue(result, Advert[].class);
 
-        Assert.assertEquals(adverts.length, 0);
+        Assert.assertEquals(0, adverts.length);
     }
 
 
@@ -186,7 +186,7 @@ public class MainControllerTest {
         MvcResult mvcResult = mockMvc.perform(get("/advert/1")).andReturn();
 
         int status = mvcResult.getResponse().getStatus();
-        Assert.assertEquals(status, 200);
+        Assert.assertEquals( 200, status);
 
         AdvertContainer advert = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), AdvertContainer.class);
         Assert.assertNotNull(advert);
@@ -228,7 +228,7 @@ public class MainControllerTest {
         Assert.assertTrue(commentsSize > 0);
 
         List<Comment> advertComments = advertContainer.getComments();
-        Assert.assertEquals(advertComments.get(0).getMessage(), "leave message");
+        Assert.assertEquals("leave message", advertComments.get(0).getMessage());
 
 
         Comment comment = advertComments.get(0);

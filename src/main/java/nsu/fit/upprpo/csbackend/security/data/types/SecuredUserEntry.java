@@ -5,12 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.NotEmpty;
+
+import org.apache.log4j.Logger;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,6 +20,8 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 public class SecuredUserEntry implements UserDetails {
+    private static final Logger logger = Logger.getLogger(SecuredUserEntry.class);
+
     @NotEmpty
     private final Integer uid;
 
@@ -67,7 +71,7 @@ public class SecuredUserEntry implements UserDetails {
         try {
             return objectMapper.writeValueAsString(this);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return "";
     }

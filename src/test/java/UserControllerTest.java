@@ -52,7 +52,7 @@ public class UserControllerTest {
         String userJson = response.getContentAsString();
         User user = objectMapper.readValue(userJson, User.class);
 
-        Assert.assertEquals(user.getUsername(), "tester");
+        Assert.assertEquals("tester", user.getUsername());
     }
 
     @Test

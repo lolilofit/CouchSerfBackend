@@ -24,7 +24,7 @@ public class AuthorizationUtils {
         return mvcResult.getResponse().getCookie("JWTToken");
     }
 
-    static void registerNewUser(String username, String password, ObjectMapper objectMapper, MockMvc mockMvc) throws Exception {
+    static MvcResult registerNewUser(String username, String password, ObjectMapper objectMapper, MockMvc mockMvc) throws Exception {
         UserRegisterInfo userRegisterInfo = new UserRegisterInfo();
         userRegisterInfo.setAge(20);
         SecuredUser securedUser = new SecuredUser();
@@ -32,9 +32,9 @@ public class AuthorizationUtils {
         securedUser.setPassword(password);
         userRegisterInfo.setSecuredUser(securedUser);
 
-        mockMvc.perform(post("/auth/register")
+        return mockMvc.perform(post("/auth/register")
                 .content(objectMapper.writeValueAsString(userRegisterInfo))
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andReturn();
     }
 }

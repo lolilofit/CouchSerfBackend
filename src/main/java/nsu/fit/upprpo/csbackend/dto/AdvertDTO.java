@@ -3,17 +3,16 @@ package nsu.fit.upprpo.csbackend.dto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
-import nsu.fit.upprpo.csbackend.tables.Advert;
 import nsu.fit.upprpo.csbackend.tables.AdvertType;
-import nsu.fit.upprpo.csbackend.tables.User;
+import org.apache.log4j.Logger;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Data
 public class AdvertDTO implements Serializable {
+    private static final Logger logger = Logger.getLogger(AdvertDTO.class);
+
     private Long adId;
     private Date publicationDate;
     private String header;
@@ -24,15 +23,13 @@ public class AdvertDTO implements Serializable {
     private Date arrivingDate;
     private Date checkOutDate;
 
-    public AdvertDTO() {}
-
     @Override
     public String toString() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.writeValueAsString(this);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return "";
     }

@@ -5,8 +5,6 @@ import nsu.fit.upprpo.csbackend.tables.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -15,12 +13,12 @@ public class UserServiceImpl implements UserService {
     private UsersRepository usersRepository;
 
     @Override
-    public void addNewUser(String username, Integer age) {
+    public User addNewUser(String username, Integer age) {
         User user = new User();
         user.setUsername(username);
         user.setAge(age);
 
-        usersRepository.save(user);
+        return usersRepository.save(user);
     }
 
     @Override

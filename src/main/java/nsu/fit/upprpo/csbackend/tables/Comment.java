@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
+import org.apache.log4j.Logger;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,6 +13,8 @@ import java.io.Serializable;
 @Entity
 @Table(name = "comm")
 public class Comment implements Serializable {
+    private static final Logger logger = Logger.getLogger(Comment.class);
+
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "comment_generator")
     @SequenceGenerator(name = "comment_generator", sequenceName = "COMMENT_SEQ")
@@ -36,7 +39,7 @@ public class Comment implements Serializable {
         try {
             return objectMapper.writeValueAsString(this);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return "";
     }

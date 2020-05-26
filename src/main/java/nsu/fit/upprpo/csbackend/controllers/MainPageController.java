@@ -142,21 +142,23 @@ public class MainPageController {
     @ResponseBody
     public Advert addSubscriber(@AuthenticationPrincipal UserDetails userDetails,
                                 @PathVariable Long adId) {
+        String mes = "Add subscriber with username = ";
+
         String username = userDetails.getUsername();
         User user = userService.findUserByUsername(username);
 
         if(user == null) {
-            logger.error("Add subscriber with username = " + username + " user entity not found, adId=" + adId);
+            logger.error(mes + username + " user entity not found, adId=" + adId);
             return null;
         }
 
         Advert advert = advertRepository.findByAdId(adId);
         if(advert == null) {
-            logger.error("Add subscriber with username = " + username + " advert not found, adId=" + adId);
+            logger.error(mes + username + " advert not found, adId=" + adId);
             return null;
         }
 
-        logger.info("Add subscriber with username = " + username + " , adId=" + adId);
+        logger.info(mes + username + " , adId=" + adId);
 
         if(!advert.getSubscribers().contains(user))
             advert.getSubscribers().add(user);

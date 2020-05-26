@@ -27,7 +27,6 @@ public class Advert implements Serializable {
     @JoinColumn(name = "owner_id")
     private User owner;
 
-    @NotNull
     @Column(name = "publication_date")
     private Date publicationDate;
 

@@ -3,12 +3,14 @@ package nsu.fit.upprpo.csbackend.dto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
-import nsu.fit.upprpo.csbackend.tables.Place;
+import org.apache.log4j.Logger;
 
 import java.io.Serializable;
 
 @Data
 public class PlaceDTO implements Serializable {
+    private static final Logger logger = Logger.getLogger(PlaceDTO.class);
+
     private Long placeId;
     private String country;
     private String city;
@@ -28,7 +30,7 @@ public class PlaceDTO implements Serializable {
         try {
             return objectMapper.writeValueAsString(this);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return "";
     }

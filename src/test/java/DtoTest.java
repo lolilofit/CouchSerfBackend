@@ -58,4 +58,6 @@ public class DtoTest {
         Assert.assertEquals(placeDTO.hashCode(), placeDTO.hashCode());
         Assert.assertEquals(placeDTO.toString(), objectMapper.writeValueAsString(placeDTO));
     }
+
+
 }

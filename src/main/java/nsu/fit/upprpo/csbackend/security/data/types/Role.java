@@ -8,9 +8,10 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.apache.log4j.Logger;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.List;
 
@@ -20,6 +21,8 @@ import java.util.List;
 @Entity
 @Table(name = "roles")
 public class Role implements Serializable {
+    private static final Logger logger = Logger.getLogger(Role.class);
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "role_seq_gen")
     @SequenceGenerator(name = "role_seq_gen", sequenceName = "ROLE_TRG")
@@ -44,7 +47,7 @@ public class Role implements Serializable {
         try {
             return objectMapper.writeValueAsString(this);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return "";
     }

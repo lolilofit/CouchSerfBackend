@@ -14,8 +14,8 @@ public class PlaceServiceImpl implements PlaceService{
     private PlaceRepository placeRepository;
 
     @Override
-    public void addNewPlace(String country, String city, String home) {
-        placeRepository.save(new Place(country, city, home));
+    public Place addNewPlace(String country, String city, String home) {
+        return placeRepository.save(new Place(country, city, home));
     }
 
     @Override

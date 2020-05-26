@@ -1,8 +1,5 @@
 package nsu.fit.upprpo.csbackend.controllers;
 
-import java.util.List;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import nsu.fit.upprpo.csbackend.dto.SecuredUserDTO;
 import nsu.fit.upprpo.csbackend.repository.UsersRepository;
 import nsu.fit.upprpo.csbackend.security.JpaSecuredUserDetailsService;
@@ -23,12 +20,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/auth")
@@ -56,7 +52,7 @@ public class AuthoriationController {
     private UsersRepository usersRepository;
 
 
-    @RequestMapping(path = "/login", consumes = "application/json", produces = "application/json", method = RequestMethod.POST)
+    @PostMapping(path = "/login", consumes = "application/json", produces = "application/json")
     public ResponseEntity<JwtToken> loginRequest(@RequestBody @Valid SecuredUserDTO user, HttpServletResponse response) {
         logger.info("Try to login user " + user.getUsername());
 

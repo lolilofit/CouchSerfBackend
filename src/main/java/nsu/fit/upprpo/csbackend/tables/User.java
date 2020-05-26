@@ -3,6 +3,7 @@ package nsu.fit.upprpo.csbackend.tables;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
+import org.apache.log4j.Logger;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import java.io.Serializable;
 @Table(name = "Users")
 public class User implements Serializable {
     private static final long serialVersionUID = -5170875020617735653L;
+    private static final Logger logger = Logger.getLogger(User.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "my_entity_seq_gen")
@@ -37,15 +39,13 @@ public class User implements Serializable {
     @Column(name = "house_provision_rating_num")
     private long  houseProvisionRatingsNum = 0;
 
-    public User() {}
-
     @Override
     public String toString() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.writeValueAsString(this);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return "";
     }

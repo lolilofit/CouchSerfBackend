@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.apache.log4j.Logger;
 
 import javax.persistence.*;
 
@@ -16,6 +17,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "auth_roles")
 public class SecuredUserRole {
+    private static final Logger logger = Logger.getLogger(SecuredUserRole.class);
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_user_role_seq_gen")
     @SequenceGenerator(name = "sec_user_role_seq_gen", sequenceName = "SECURED_USER_ROLE_TRG")
@@ -34,7 +37,7 @@ public class SecuredUserRole {
         try {
             return objectMapper.writeValueAsString(this);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return "";
     }

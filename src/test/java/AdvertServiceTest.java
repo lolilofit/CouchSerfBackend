@@ -55,12 +55,13 @@ public class AdvertServiceTest {
 
         Advert advert = createAdvert("head", "Mes", "9/11/2020", "10/11/2020",
                 "Russia", "Tula", "fr");
-        advertService.addNewAdvert(advert, user);
-
+        Advert addedAd1 = advertService.addNewAdvert(advert, user);
+        Assert.assertNotNull(addedAd1);
 
         Advert secondAdvert = createAdvert("headeeer", "Mes2", "9/11/2020", "15/11/2020",
                 "Russia", "NSK", "fr");
-        advertService.addNewAdvert(secondAdvert, user);
+        Advert addedAd2 = advertService.addNewAdvert(secondAdvert, user);
+        Assert.assertNotNull(addedAd2);
     }
 
     public List<Advert> getAdverts() {

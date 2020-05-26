@@ -18,7 +18,8 @@ public class PlaceServiceTest {
 
     @Test
     public void addNewPlace() {
-        placeService.addNewPlace("Russia", "Tomsk", "Vertk");
+        Place place = placeService.addNewPlace("Russia", "Tomsk", "Vertk");
+        Assert.assertNotNull(place);
     }
 
     @Test
@@ -28,9 +29,9 @@ public class PlaceServiceTest {
 
         Place place = places.get(0);
 
-        Assert.assertEquals(place.getCity(), "Tomsk");
-        Assert.assertEquals(place.getCountry(), "Russia");
-        Assert.assertEquals(place.getHome(), "Vertk");
+        Assert.assertEquals("Tomsk", place.getCity());
+        Assert.assertEquals("Russia", place.getCountry());
+        Assert.assertEquals("Vertk", place.getHome());
 
         places = placeService.getPlaceWithFilters(null, "Tomsk", "Vertk");
         Assert.assertEquals(0, places.size());

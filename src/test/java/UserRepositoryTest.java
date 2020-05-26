@@ -16,6 +16,7 @@ public class UserRepositoryTest {
 
     @Test
     public void addNewUser() {
+
         userService.addNewUser("testUserService", 88);
     }
 
@@ -24,6 +25,6 @@ public class UserRepositoryTest {
         User user = userService.findUserByUsername("testUserService");
         Assert.assertNotNull(user);
 
-        Assert.assertEquals(user.getUsername(), "testUserService");
+        Assert.assertEquals("testUserService", user.getUsername());
     }
 }
