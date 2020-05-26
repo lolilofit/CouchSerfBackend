@@ -30,6 +30,7 @@ public class DtoTest {
         Assert.assertEquals(securedUserDTO, securedUserDTO);
         Assert.assertEquals(securedUserDTO.hashCode(), securedUserDTO.hashCode());
         Assert.assertEquals(securedUserDTO.toString(), objectMapper.writeValueAsString(securedUserDTO));
+        Assert.assertNotEquals(securedUserDTO, new Object());
     }
 
     @Test
@@ -53,10 +54,12 @@ public class DtoTest {
         Assert.assertEquals(advertDTO, advertDTO);
         Assert.assertEquals(advertDTO.hashCode(), advertDTO.hashCode());
         Assert.assertEquals(advertDTO.toString(), objectMapper.writeValueAsString(advertDTO));
+        Assert.assertNotEquals(advertDTO, new Object());
 
         Assert.assertEquals(placeDTO, placeDTO);
         Assert.assertEquals(placeDTO.hashCode(), placeDTO.hashCode());
         Assert.assertEquals(placeDTO.toString(), objectMapper.writeValueAsString(placeDTO));
+        Assert.assertNotEquals(placeDTO, new Object());
     }
 
 

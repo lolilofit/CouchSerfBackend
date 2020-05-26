@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -79,6 +80,16 @@ public class AdvertServiceTest {
 
     private void equalsTest(Advert firstAdvert, Advert secondAdvert) {
         Assert.assertEquals(firstAdvert, firstAdvert);
+        Assert.assertNotEquals(firstAdvert, secondAdvert);
+        Assert.assertNotEquals(firstAdvert, new Object());
+
+
+        User user = userService.findUserByUsername("usr");
+        List<User> subscribers = new ArrayList<>();
+        subscribers.add(user);
+
+        firstAdvert.setSubscribers(subscribers);
+
         Assert.assertNotEquals(firstAdvert, secondAdvert);
     }
 
