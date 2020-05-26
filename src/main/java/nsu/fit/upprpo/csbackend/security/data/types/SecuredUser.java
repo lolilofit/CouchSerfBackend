@@ -1,10 +1,8 @@
 package nsu.fit.upprpo.csbackend.security.data.types;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
-import org.apache.log4j.Logger;
+import nsu.fit.upprpo.csbackend.PublicUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -16,8 +14,6 @@ import java.util.List;
 @Entity
 @Table(name = "secus")
 public class SecuredUser implements Serializable {
-    private static final Logger logger = Logger.getLogger(SecuredUser.class);
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "su_seq_gen")
     @SequenceGenerator(name = "su_seq_gen", sequenceName = "SECURED_USER_TRG")
@@ -49,13 +45,7 @@ public class SecuredUser implements Serializable {
 
     @Override
     public String toString() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            logger.error(e.getMessage());
-        }
-        return "";
+        return PublicUtils.publicToString(this);
     }
 
     @Override

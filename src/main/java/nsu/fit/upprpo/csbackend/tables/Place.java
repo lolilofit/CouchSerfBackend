@@ -1,10 +1,8 @@
 package nsu.fit.upprpo.csbackend.tables;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
+import nsu.fit.upprpo.csbackend.PublicUtils;
 import nsu.fit.upprpo.csbackend.dto.PlaceDTO;
-import org.apache.log4j.Logger;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,8 +12,6 @@ import java.io.Serializable;
 @Table(name = "Place",
         uniqueConstraints=@UniqueConstraint(columnNames={"country", "city", "home"}))
 public class Place implements Serializable {
-    private static final Logger logger = Logger.getLogger(Place.class);
-
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "place_generator")
     @SequenceGenerator(name = "place_generator", sequenceName = "PLACE_SEQ")
@@ -47,13 +43,7 @@ public class Place implements Serializable {
 
     @Override
     public String toString() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            logger.error(e.getMessage());
-        }
-        return "";
+        return PublicUtils.publicToString(this);
     }
 
     @Override

@@ -1,8 +1,7 @@
 package nsu.fit.upprpo.csbackend.tables;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
+import nsu.fit.upprpo.csbackend.PublicUtils;
 import nsu.fit.upprpo.csbackend.dto.AdvertDTO;
 
 import javax.persistence.*;
@@ -16,7 +15,6 @@ import java.util.List;
 @Entity
 @Table(name = "Advert")
 public class Advert implements Serializable {
-
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "ad_generator")
     @SequenceGenerator(name = "ad_generator", sequenceName = "AD_SEQ")
@@ -28,7 +26,7 @@ public class Advert implements Serializable {
     private User owner;
 
     @Column(name = "publication_date")
-    private Date publicationDate;
+    private Date publicationDate = new Date();
 
     @NotNull
     @ManyToMany(cascade = CascadeType.ALL)
@@ -56,15 +54,15 @@ public class Advert implements Serializable {
 
     @NotNull
     @Column(name = "people_number")
-    private int peopleNumber;
+    private int peopleNumber = 1;
 
     @NotNull
     @Column(name = "arriving_date")
-    private Date arrivingDate;
+    private Date arrivingDate = new Date();
 
     @NotNull
     @Column(name = "check_out_date")
-    private Date checkOutDate;
+    private Date checkOutDate = new Date();
 
 
     public Advert() {
@@ -90,13 +88,7 @@ public class Advert implements Serializable {
 
     @Override
     public String toString() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return "";
+        return PublicUtils.publicToString(this);
     }
 
     @Override

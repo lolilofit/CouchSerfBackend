@@ -1,12 +1,9 @@
 package nsu.fit.upprpo.csbackend.security.data.types;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-
-import org.apache.log4j.Logger;
+import nsu.fit.upprpo.csbackend.PublicUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,8 +17,6 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 public class SecuredUserEntry implements UserDetails {
-    private static final Logger logger = Logger.getLogger(SecuredUserEntry.class);
-
     @NotEmpty
     private final Integer uid;
 
@@ -67,13 +62,7 @@ public class SecuredUserEntry implements UserDetails {
 
     @Override
     public String toString() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            logger.error(e.getMessage());
-        }
-        return "";
+        return PublicUtils.publicToString(this);
     }
 
     @Override

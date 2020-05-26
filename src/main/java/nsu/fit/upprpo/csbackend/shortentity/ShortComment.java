@@ -1,8 +1,7 @@
 package nsu.fit.upprpo.csbackend.shortentity;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
+import nsu.fit.upprpo.csbackend.PublicUtils;
 
 @Data
 public class ShortComment {
@@ -10,13 +9,7 @@ public class ShortComment {
 
     @Override
     public String toString() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return "";
+        return PublicUtils.publicToString(this);
     }
 
     @Override

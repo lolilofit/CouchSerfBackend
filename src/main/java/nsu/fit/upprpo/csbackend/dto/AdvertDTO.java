@@ -1,18 +1,14 @@
 package nsu.fit.upprpo.csbackend.dto;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
+import nsu.fit.upprpo.csbackend.PublicUtils;
 import nsu.fit.upprpo.csbackend.tables.AdvertType;
-import org.apache.log4j.Logger;
 
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
 public class AdvertDTO implements Serializable {
-    private static final Logger logger = Logger.getLogger(AdvertDTO.class);
-
     private Long adId;
     private Date publicationDate;
     private String header;
@@ -25,13 +21,7 @@ public class AdvertDTO implements Serializable {
 
     @Override
     public String toString() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            logger.error(e.getMessage());
-        }
-        return "";
+        return PublicUtils.publicToString(this);
     }
 
     @Override

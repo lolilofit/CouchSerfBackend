@@ -2,13 +2,11 @@ package nsu.fit.upprpo.csbackend.security.data.types;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.log4j.Logger;
+import nsu.fit.upprpo.csbackend.PublicUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -21,8 +19,6 @@ import java.util.List;
 @Entity
 @Table(name = "roles")
 public class Role implements Serializable {
-    private static final Logger logger = Logger.getLogger(Role.class);
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "role_seq_gen")
     @SequenceGenerator(name = "role_seq_gen", sequenceName = "ROLE_TRG")
@@ -43,13 +39,7 @@ public class Role implements Serializable {
 
     @Override
     public String toString() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            logger.error(e.getMessage());
-        }
-        return "";
+        return PublicUtils.publicToString(this);
     }
 
     @Override
