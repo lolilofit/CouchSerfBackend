@@ -38,11 +38,11 @@ public class Advert implements Serializable {
     //short header for advert on site
     @NotNull
     @Column(name = "header")
-    private String header = "";
+    private String header;
 
     @NotNull
     @Column(name = "message")
-    private String message = "";
+    private String message;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -67,6 +67,8 @@ public class Advert implements Serializable {
 
     public Advert() {
         subscribers = new ArrayList<>();
+        header = "";
+        message = "";
     }
 
     public Advert(AdvertDTO advertDTO) {
