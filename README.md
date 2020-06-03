@@ -251,6 +251,3 @@ localhost:8083/adchange/{adId}/addsubscriber
     "arrivingDate": 1597795200000,
     "checkOutDate": 1597881600000
 }
-
-**3. API чата**
-mvn install:install-file -Dfile=WEB-INF/lib/ojdbc8.jar -DgroupId=com.oracle -DartifactId=ojdbc8 -Dversion=1.0 -Dpackaging=jar
